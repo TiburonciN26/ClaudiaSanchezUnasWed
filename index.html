@@ -1,0 +1,5601 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Jaise</title>
+  <style>
+/* ==========================================
+   VARIABLES — Neutro Minimalista (Modo Oscuro Premium)
+   ========================================== */
+:root {
+  --bg-primary:     #0d0e12; /* Negro profundo mineral */
+  --bg-card:        #16181d; /* Gris oscuro limpio para contenedores */
+  --bg-card-hover:  #1f2229; /* Gris intermedio para hovers */
+  --accent:         #ffffff; /* Blanco puro para elementos activos principales */
+  --accent-light:   #f3f4f6; /* Blanco grisáceo suave */
+  --gold:           #e4e4e7; /* Gris platino claro para títulos */
+  --gold-light:     #ffffff; /* Blanco puro para textos destacados */
+  --label-color:    #9ca3af; /* Gris neutro medio para etiquetas */
+  --text-primary:   #f9fafb; /* Blanco suave para lectura principal */
+  --text-secondary: #d1d5db; /* Gris claro para lectura secundaria */
+  --text-muted:     #6b7280; /* Gris apagado para textos secundarios o deshabilitados */
+  --success:        #10b981; /* Verde esmeralda minimalista para estados positivos */
+  --warning:        #f59e0b; /* Ámbar sutil para advertencias */
+  --danger:         #ef4444; /* Rojo limpio para errores */
+  --info:           #3b82f6; /* Azul moderno para información */
+  --border:         rgba(255,255,255,0.08); /* Borde sutil transparente blanco */
+  --border-hover:   rgba(255,255,255,0.16); /* Borde sutil más visible en hover */
+  --shadow:         0 8px 30px rgba(0,0,0,0.7); /* Sombra profunda para destacar tarjetas */
+  --shadow-gold:    0 0 20px rgba(255,255,255,0.03); /* Brillo sutil blanco en lugar de dorado */
+  --radius:         14px;
+  --radius-sm:      8px;
+  --radius-xs:      6px;
+  --transition:     0.2s ease;
+  --header-h:       56px;
+  --sidebar-w:      240px;
+}
+
+
+
+
+/* ==========================================
+   RESET
+   ========================================== */
+*, *::before, *::after {
+  box-sizing: border-box; margin: 0; padding: 0;
+}
+html { scroll-behavior: smooth; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont,
+    'Segoe UI', Roboto, sans-serif;
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  min-height: 100vh;
+  overflow-x: hidden;
+  font-size: 15px;
+  -webkit-tap-highlight-color: transparent;
+}
+a { text-decoration: none; color: inherit; }
+button { cursor: pointer; border: none; outline: none; font-family: inherit; }
+input, select, textarea { font-family: inherit; }
+img { max-width: 100%; }
+
+/* ==========================================
+   SPLASH
+   ========================================== */
+.splash-screen {
+  position: fixed; inset: 0;
+  background: var(--bg-primary);
+  display: flex; align-items: center;
+  justify-content: center; z-index: 9999;
+  transition: opacity 0.4s ease;
+}
+.splash-content { text-align: center; }
+.splash-logo {
+  font-size: 64px; margin-bottom: 12px;
+  filter: drop-shadow(0 0 20px rgba(255,255,255,0.2));
+  animation: pulse 2s infinite;
+}
+@keyframes pulse {
+  0%,100% { transform: scale(1); }
+  50%      { transform: scale(1.05); }
+}
+.splash-title {
+  font-size: 32px; font-weight: 800;
+  background: linear-gradient(135deg, var(--gold), var(--gold-light));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin-bottom: 4px;
+}
+.splash-sub {
+  color: var(--label-color); font-size: 14px;
+  margin-bottom: 32px;
+}
+.spinner {
+  width: 36px; height: 36px; margin: 0 auto;
+  border: 3px solid rgba(255,255,255,0.1);
+  border-top-color: var(--accent);
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* ==========================================
+   LOGIN
+   ========================================== */
+.login-screen {
+  position: fixed; inset: 0;
+  background: var(--bg-primary);
+  display: flex; align-items: center;
+  justify-content: center; padding: 20px; z-index: 500;
+}
+.login-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  width: 100%; max-width: 400px;
+  box-shadow: var(--shadow);
+  overflow: hidden;
+  animation: slideUp 0.4s ease;
+}
+.login-header {
+  background: linear-gradient(135deg, #1f2229, #0d0e12);
+  border-bottom: 1px solid var(--border);
+  padding: 36px 32px 28px;
+  text-align: center;
+}
+.login-logo {
+  font-size: 52px; margin-bottom: 10px;
+  filter: drop-shadow(0 0 16px rgba(255,255,255,0.15));
+}
+.login-title {
+  font-size: 26px; font-weight: 800;
+  background: linear-gradient(135deg, var(--gold), var(--gold-light));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin-bottom: 4px;
+}
+.login-sub { color: var(--label-color); font-size: 13px; }
+.login-body { padding: 28px 28px 32px; }
+.login-welcome {
+  color: var(--text-secondary); font-size: 14px;
+  margin-bottom: 20px; text-align: center;
+}
+.input-with-icon { position: relative; }
+.input-icon {
+  position: absolute; left: 12px; top: 50%;
+  transform: translateY(-50%);
+  font-size: 15px; pointer-events: none;
+}
+.input-with-icon .form-control {
+  padding-left: 38px; padding-right: 38px;
+}
+.toggle-pass {
+  position: absolute; right: 10px; top: 50%;
+  transform: translateY(-50%);
+  background: transparent; font-size: 15px;
+  opacity: 0.5; transition: opacity 0.2s;
+}
+.toggle-pass:hover { opacity: 1; }
+.login-error {
+  background: rgba(239,68,68,0.1);
+  border: 1px solid rgba(239,68,68,0.3);
+  border-radius: var(--radius-sm);
+  color: #f87171; padding: 10px 14px;
+  font-size: 13px; margin-bottom: 14px;
+  text-align: center;
+}
+.btn-block {
+  width: 100%; justify-content: center;
+  padding: 14px; font-size: 15px; margin-top: 4px;
+}
+.login-hint {
+  color: var(--text-muted); font-size: 11px;
+  text-align: center; margin-top: 18px; line-height: 1.5;
+}
+
+/* ==========================================
+   HEADER
+   ========================================== */
+.app-header {
+  position: fixed; top: 0; left: 0; right: 0;
+  height: var(--header-h);
+  background: linear-gradient(135deg, #16181d, #0d0e12);
+  border-bottom: 1px solid var(--border);
+  display: flex; align-items: center;
+  justify-content: space-between;
+  padding: 0 16px;
+  z-index: 100;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+}
+.header-left { display: flex; align-items: center; gap: 10px; }
+.header-logo {
+  font-size: 22px;
+  filter: drop-shadow(0 0 8px rgba(255,255,255,0.2));
+}
+.header-title {
+  font-size: 18px; font-weight: 800;
+  background: linear-gradient(135deg, var(--gold), var(--gold-light));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.header-right { display: flex; align-items: center; gap: 8px; }
+.header-user {
+  font-size: 12px; color: var(--text-secondary);
+  max-width: 120px; overflow: hidden;
+  text-overflow: ellipsis; white-space: nowrap;
+}
+.header-role {
+  font-size: 10px; font-weight: 700;
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.15);
+  color: var(--text-primary);
+  padding: 2px 8px; border-radius: 20px;
+  text-transform: uppercase; letter-spacing: 0.8px;
+}
+.menu-toggle {
+  background: transparent; color: var(--text-primary);
+  font-size: 20px; padding: 6px;
+  border-radius: var(--radius-xs);
+  transition: background var(--transition);
+  line-height: 1;
+}
+.menu-toggle:hover { background: rgba(255,255,255,0.08); }
+.btn-logout {
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.12);
+  color: var(--text-secondary);
+  border-radius: var(--radius-xs);
+  padding: 6px 10px; font-size: 12px;
+  font-weight: 600; transition: all 0.2s;
+}
+.btn-logout:hover {
+  background: rgba(255,255,255,0.15);
+  color: var(--text-primary);
+  border-color: rgba(255,255,255,0.3);
+}
+
+/* ==========================================
+   LAYOUT
+   ========================================== */
+.app-body {
+  display: flex;
+  padding-top: var(--header-h);
+  min-height: 100vh;
+}
+
+/* ==========================================
+   SIDEBAR
+   ========================================== */
+.sidebar-overlay {
+  display: none;
+  position: fixed; inset: 0;
+  background: rgba(0,0,0,0.6);
+  z-index: 49;
+  backdrop-filter: blur(2px);
+}
+.sidebar-overlay.active { display: block; }
+
+.sidebar {
+  width: var(--sidebar-w);
+  background: linear-gradient(180deg, #16181d 0%, #0d0e12 100%);
+  border-right: 1px solid var(--border);
+  padding: 16px 0 80px;
+  position: fixed;
+  top: var(--header-h);
+  left: 0; bottom: 0;
+  overflow-y: auto;
+  z-index: 50;
+  transition: transform 0.3s ease;
+}
+
+/* Móvil: sidebar oculto por defecto */
+@media (max-width: 768px) {
+  .sidebar { transform: translateX(-100%); }
+  .sidebar.open { transform: translateX(0); }
+  .main-content { margin-left: 0 !important; }
+}
+
+/* Desktop: sidebar visible */
+@media (min-width: 769px) {
+  .sidebar { transform: translateX(0); }
+  .main-content { margin-left: var(--sidebar-w); }
+}
+
+.sidebar-section { margin-bottom: 8px; }
+.sidebar-label {
+  font-size: 10px; font-weight: 700;
+  color: var(--text-muted);
+  letter-spacing: 1.5px;
+  padding: 12px 16px 6px;
+  text-transform: uppercase;
+}
+.nav-item {
+  display: flex; align-items: center; gap: 10px;
+  padding: 11px 16px;
+  color: var(--text-secondary);
+  font-size: 14px;
+  transition: all var(--transition);
+  border-left: 3px solid transparent;
+  cursor: pointer;
+}
+.nav-item:hover {
+  background: rgba(255,255,255,0.05);
+  color: var(--text-primary);
+  border-left-color: rgba(255,255,255,0.3);
+}
+.nav-item.active {
+  background: rgba(255,255,255,0.08);
+  color: var(--text-primary);
+  border-left-color: var(--accent);
+  font-weight: 600;
+}
+.nav-item.active .nav-icon { color: var(--gold-light); }
+.nav-icon { font-size: 16px; min-width: 20px; }
+
+.sidebar-user-info {
+  position: absolute; bottom: 0; left: 0; right: 0;
+  padding: 12px 16px;
+  border-top: 1px solid var(--border);
+  background: rgba(13,14,18,0.95);
+}
+.sidebar-user-email {
+  font-size: 11px; color: var(--text-muted);
+  white-space: nowrap; overflow: hidden;
+  text-overflow: ellipsis; margin-bottom: 2px;
+}
+.sidebar-user-rol {
+  font-size: 11px; font-weight: 700;
+  color: var(--text-primary);
+}
+
+/* ==========================================
+   MAIN CONTENT
+   ========================================== */
+.main-content {
+  flex: 1;
+  padding: 16px;
+  min-width: 0;
+}
+
+/* ==========================================
+   PAGE HEADER
+   ========================================== */
+.page-header {
+  display: flex; align-items: flex-start;
+  justify-content: space-between;
+  margin-bottom: 16px;
+}
+.page-title {
+  font-size: 20px; font-weight: 800;
+  color: var(--text-primary);
+}
+.page-subtitle {
+  color: var(--text-muted); font-size: 12px;
+  margin-top: 2px;
+}
+
+/* ==========================================
+   CARDS
+   ========================================== */
+.card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 16px;
+  box-shadow: var(--shadow);
+}
+.card-title {
+  font-size: 14px; font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: 14px;
+  display: flex; align-items: center;
+  gap: 8px; flex-wrap: wrap;
+}
+
+/* ==========================================
+   TARJETAS DE DATOS (reemplaza tablas)
+   ========================================== */
+.data-cards { display: flex; flex-direction: column; gap: 10px; }
+
+.data-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 14px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  transition: all var(--transition);
+  position: relative;
+}
+.data-card:hover {
+  border-color: var(--border-hover);
+  background: var(--bg-card-hover);
+}
+.data-card-avatar {
+  width: 44px; height: 44px;
+  border-radius: 50%;
+  display: flex; align-items: center;
+  justify-content: center;
+  font-size: 16px; font-weight: 800;
+  color: #0d0e12; flex-shrink: 0;
+  background: #ffffff;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+}
+.data-card-body { flex: 1; min-width: 0; }
+.data-card-nombre {
+  font-size: 15px; font-weight: 700;
+  color: var(--text-primary);
+  white-space: nowrap; overflow: hidden;
+  text-overflow: ellipsis;
+  margin-bottom: 4px;
+}
+.data-card-info {
+  display: flex; flex-wrap: wrap; gap: 6px;
+}
+.data-card-dato {
+  font-size: 12px; color: var(--text-secondary);
+  display: flex; align-items: center; gap: 3px;
+}
+.data-card-actions {
+  display: flex; gap: 6px; flex-shrink: 0;
+}
+
+/* ==========================================
+   MÉTRICAS / KPI
+   ========================================== */
+.metricas-fila {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  margin-bottom: 14px;
+}
+.metrica-chip {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 12px 8px;
+  text-align: center;
+}
+.metrica-chip.highlight {
+  border-color: rgba(255,255,255,0.4);
+  background: rgba(255,255,255,0.03);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+}
+.metrica-chip-icon { font-size: 20px; margin-bottom: 4px; }
+.metrica-chip-valor {
+  font-size: 15px; font-weight: 800;
+  color: var(--text-primary); margin-bottom: 2px;
+  white-space: nowrap; overflow: hidden;
+  text-overflow: ellipsis;
+}
+.metrica-chip-valor.positive { color: var(--success); }
+.metrica-chip-valor.negative { color: var(--danger); }
+.metrica-chip-label {
+  font-size: 9px; font-weight: 700;
+  color: var(--label-color);
+  letter-spacing: 0.6px; text-transform: uppercase;
+}
+
+/* Grid métricas admin (2 columnas) */
+.metrics-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+  margin-bottom: 16px;
+}
+/* En móvil, 4 columnas es muy angosto → usar 3 */
+@media (max-width: 600px) {
+  .metrics-grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 6px;
+  }
+}
+.metric-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 16px 12px;
+  text-align: center;
+  transition: transform var(--transition);
+}
+.metric-card:hover { transform: translateY(-1px); }
+.metric-card.highlight {
+  border-color: rgba(255,255,255,0.3);
+  background: rgba(255,255,255,0.03);
+}
+.metric-value {
+  font-size: 18px; font-weight: 800;
+  margin-bottom: 4px;
+}
+.metric-value.positive { color: var(--success); }
+.metric-value.negative { color: var(--danger); }
+.metric-label {
+  font-size: 10px; font-weight: 700;
+  color: var(--label-color);
+  text-transform: uppercase; letter-spacing: 0.6px;
+}
+
+/* ==========================================
+   FORMULARIOS
+   ========================================== */
+.form-group { margin-bottom: 14px; }
+.form-label {
+  display: block; font-size: 11px; font-weight: 700;
+  color: var(--text-primary); margin-bottom: 5px;
+  text-transform: uppercase; letter-spacing: 0.5px;
+}
+.form-control {
+  width: 100%;
+  background: #d0d0d0;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 11px 14px;
+  color: #000000;
+  font-size: 14px;
+  transition: border-color var(--transition);
+  -webkit-appearance: none;
+}
+.form-control:focus {
+  outline: none;
+  border-color: rgba(255,255,255,0.4);
+  box-shadow: 0 0 0 3px rgba(255,255,255,0.06);
+}
+.form-control::placeholder { color: var(--text-muted); }
+select.form-control { cursor: pointer; }
+
+/* ==========================================
+   BOTONES
+   ========================================== */
+.btn {
+  display: inline-flex; align-items: center;
+  gap: 6px; padding: 10px 18px;
+  border-radius: var(--radius-sm);
+  font-size: 14px; font-weight: 600;
+  transition: all var(--transition);
+  white-space: nowrap; cursor: pointer;
+}
+.btn-primary {
+  background: linear-gradient(135deg, var(--accent), var(--accent-light));
+  color: #0d0e12;
+  box-shadow: 0 2px 8px rgba(255,255,255,0.1);
+}
+.btn-primary:hover { filter: brightness(0.9); }
+
+.btn-success {
+  background: linear-gradient(135deg, #22c55e, #4ade80);
+  color: #0d0e12; font-weight: 700;
+  box-shadow: 0 2px 8px rgba(34,197,94,0.2);
+}
+.btn-success:hover { filter: brightness(1.05); }
+
+.btn-danger {
+  background: rgba(239,68,68,0.1);
+  border: 1px solid rgba(239,68,68,0.3);
+  color: #f87171;
+}
+.btn-danger:hover {
+  background: rgba(239,68,68,0.25);
+  color: white;
+}
+.btn-ghost {
+  background: rgba(255,255,255,0.04);
+  border: 1px solid var(--border);
+  color: var(--text-secondary);
+}
+.btn-ghost:hover {
+  background: rgba(255,255,255,0.1);
+  border-color: var(--border-hover);
+  color: var(--text-primary);
+}
+.btn-sm { padding: 6px 12px; font-size: 12px; }
+.btn-xs { padding: 4px 8px;  font-size: 11px; }
+.btn-icon {
+  padding: 8px; border-radius: var(--radius-sm);
+  font-size: 16px; line-height: 1;
+}
+
+/* Botón grande full width */
+.btn-full {
+  width: 100%; justify-content: center;
+  padding: 14px; font-size: 15px;
+}
+
+/* ==========================================
+   FILTRO INLINE
+   ========================================== */
+.filtro-inline {
+  display: flex; align-items: flex-end;
+  gap: 8px; flex-wrap: nowrap;
+}
+.filtro-item { flex: 1; min-width: 0; }
+.filtro-item .form-label { font-size: 10px; margin-bottom: 4px; }
+.filtro-item .form-control {
+  padding: 9px 8px; font-size: 13px;
+}
+.filtro-sep {
+  color: var(--text-muted);
+  padding-bottom: 10px; flex-shrink: 0;
+}
+.btn-lupa {
+  background: linear-gradient(135deg, var(--accent), var(--accent-light));
+  border: none; border-radius: var(--radius-sm);
+  width: 40px; height: 40px;
+  font-size: 17px; cursor: pointer;
+  flex-shrink: 0;
+  display: flex; align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 8px rgba(255,255,255,0.1);
+  transition: filter 0.2s;
+  margin-bottom: 1px;
+}
+.btn-lupa:hover { filter: brightness(0.9); }
+
+/* ==========================================
+   MODAL
+   ========================================== */
+.modal-overlay {
+  position: fixed; inset: 0;
+  background: rgba(0,0,0,0.8);
+  z-index: 200;
+  display: flex; align-items: flex-end;
+  padding: 0;
+  animation: fadeIn 0.2s ease;
+}
+@media (min-width: 600px) {
+  .modal-overlay {
+    align-items: center;
+    padding: 20px;
+  }
+}
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+.modal {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius) var(--radius) 0 0;
+  width: 100%;
+  max-height: 92vh;
+  overflow-y: auto;
+  box-shadow: var(--shadow);
+  animation: slideUpModal 0.3s ease;
+}
+@media (min-width: 600px) {
+  .modal {
+    border-radius: var(--radius);
+    max-width: 520px;
+    margin: 0 auto;
+    animation: slideUp 0.25s ease;
+  }
+}
+@keyframes slideUpModal {
+  from { transform: translateY(100%); }
+  to   { transform: translateY(0); }
+}
+@keyframes slideUp {
+  from { transform: translateY(20px); opacity: 0; }
+  to   { transform: translateY(0);    opacity: 1; }
+}
+.modal-header {
+  display: flex; align-items: center;
+  justify-content: space-between;
+  padding: 16px 20px;
+  border-bottom: 1px solid var(--border);
+  position: sticky; top: 0;
+  background: var(--bg-card); z-index: 1;
+}
+.modal-title {
+  font-size: 16px; font-weight: 700;
+  color: var(--text-primary);
+}
+.modal-close {
+  background: rgba(255,255,255,0.06);
+  color: var(--text-muted);
+  width: 30px; height: 30px;
+  border-radius: 50%;
+  display: flex; align-items: center;
+  justify-content: center; font-size: 16px;
+  transition: all var(--transition);
+}
+.modal-close:hover {
+  background: rgba(255,255,255,0.15);
+  color: var(--text-primary);
+}
+.modal-body { padding: 20px; }
+.modal-footer {
+  display: flex; justify-content: flex-end;
+  gap: 10px; padding: 14px 20px;
+  border-top: 1px solid var(--border);
+  position: sticky; bottom: 0;
+  background: var(--bg-card);
+}
+
+/* ==========================================
+   DÍAS COLAPSABLES (Mi Panel)
+   ========================================== */
+.dia-grupo { margin-bottom: 8px; }
+
+.dia-header {
+  display: flex; align-items: center;
+  justify-content: space-between;
+  padding: 12px 16px;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  cursor: pointer;
+  transition: all var(--transition);
+  user-select: none;
+}
+.dia-header:hover {
+  border-color: var(--border-hover);
+  background: var(--bg-card-hover);
+}
+.dia-header.abierto {
+  border-color: rgba(255,255,255,0.3);
+  border-radius: var(--radius) var(--radius) 0 0;
+  background: rgba(255,255,255,0.02);
+}
+.dia-header-left {
+  display: flex; align-items: center; gap: 8px;
+}
+.dia-fecha {
+  font-size: 14px; font-weight: 700;
+  color: var(--text-primary);
+}
+.dia-count {
+  font-size: 11px; color: var(--text-muted);
+}
+.dia-header-right {
+  display: flex; align-items: center; gap: 10px;
+}
+.dia-total {
+  font-size: 14px; font-weight: 800;
+  color: var(--text-primary);
+}
+.dia-chevron {
+  font-size: 12px; color: var(--text-muted);
+  transition: transform 0.2s;
+}
+.dia-header.abierto .dia-chevron {
+  transform: rotate(180deg);
+}
+
+.dia-body {
+  display: none;
+  background: rgba(13,14,18,0.4);
+  border: 1px solid var(--border);
+  border-top: none;
+  border-radius: 0 0 var(--radius) var(--radius);
+  overflow: hidden;
+}
+.dia-body.abierto { display: block; }
+
+.registro-item {
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--border);
+  display: flex; align-items: center; gap: 10px;
+}
+.registro-item:last-child { border-bottom: none; }
+.registro-item-icon {
+  width: 36px; height: 36px;
+  border-radius: 50%;
+  display: flex; align-items: center;
+  justify-content: center;
+  font-size: 16px; flex-shrink: 0;
+  background: rgba(255,255,255,0.06);
+  color: var(--text-primary);
+}
+.registro-item-body { flex: 1; min-width: 0; }
+.registro-item-nombre {
+  font-size: 14px; font-weight: 600;
+  color: var(--text-primary);
+  white-space: nowrap; overflow: hidden;
+  text-overflow: ellipsis;
+}
+.registro-item-cliente {
+  font-size: 12px; color: var(--text-muted);
+  margin-top: 1px;
+}
+.registro-item-right { text-align: right; flex-shrink: 0; }
+.registro-item-precio {
+  font-size: 14px; font-weight: 800;
+  color: var(--text-primary);
+}
+.registro-item-pago {
+  font-size: 11px; color: var(--text-secondary);
+  margin-top: 1px;
+}
+
+/* ==========================================
+   BADGES
+   ========================================== */
+.badge {
+  display: inline-block;
+  padding: 3px 9px; border-radius: 20px;
+  font-size: 11px; font-weight: 700;
+  text-transform: uppercase; letter-spacing: 0.4px;
+}
+.badge-success {
+  background: rgba(16,185,129,0.1);
+  color: #34d399;
+  border: 1px solid rgba(16,185,129,0.2);
+}
+.badge-danger {
+  background: rgba(239,68,68,0.1);
+  color: #f87171;
+  border: 1px solid rgba(239,68,68,0.2);
+}
+.badge-warning {
+  background: rgba(245,158,11,0.1);
+  color: #fbbf24;
+  border: 1px solid rgba(245,158,11,0.2);
+}
+.badge-info {
+  background: rgba(59,130,246,0.1);
+  color: #60a5fa;
+  border: 1px solid rgba(59,130,246,0.2);
+}
+.badge-gold {
+  background: rgba(255,255,255,0.06);
+  color: var(--text-primary);
+  border: 1px solid rgba(255,255,255,0.15);
+}
+.badge-purple {
+  background: rgba(139,92,246,0.1);
+  color: #a78bfa;
+  border: 1px solid rgba(139,92,246,0.2);
+}
+
+/* ==========================================
+   TOAST
+   ========================================== */
+#toastContainer {
+  position: fixed; bottom: 20px; right: 16px;
+  z-index: 999; display: flex;
+  flex-direction: column; gap: 8px;
+  max-width: calc(100vw - 32px);
+}
+.toast {
+  background: var(--bg-card);
+  border-radius: var(--radius-sm);
+  padding: 12px 16px;
+  display: flex; align-items: center; gap: 10px;
+  box-shadow: var(--shadow);
+  border-left: 3px solid var(--text-muted);
+  min-width: 240px; max-width: 320px;
+  animation: toastIn 0.3s ease;
+  font-size: 13px; color: var(--text-primary);
+}
+@keyframes toastIn {
+  from { transform: translateX(100%); opacity: 0; }
+  to   { transform: translateX(0);    opacity: 1; }
+}
+.toast.success { border-left-color: var(--success); }
+.toast.error   { border-left-color: var(--danger); }
+.toast.warning { border-left-color: var(--warning); }
+
+/* ==========================================
+   ALERTAS PRODUCTOS
+   ========================================== */
+.alerta-card {
+  border-radius: var(--radius-sm);
+  padding: 10px 14px;
+  font-size: 13px;
+  display: flex; align-items: center;
+  flex-wrap: wrap; gap: 8px;
+  margin-bottom: 8px;
+}
+.alerta-warning {
+  background: rgba(245,158,11,0.08);
+  border: 1px solid rgba(245,158,11,0.2);
+  color: #fbbf24;
+}
+.alerta-danger {
+  background: rgba(239,68,68,0.08);
+  border: 1px solid rgba(239,68,68,0.2);
+  color: #f87171;
+}
+
+/* ==========================================
+   ASISTENTES GRID
+   ========================================== */
+.asistentes-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 12px;
+}
+.asistente-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 20px 16px;
+  display: flex; flex-direction: column;
+  align-items: center; text-align: center;
+  gap: 10px; transition: all var(--transition);
+}
+.asistente-card:hover {
+  border-color: var(--border-hover);
+  transform: translateY(-2px);
+}
+.asistente-card-avatar {
+  width: 60px; height: 60px; border-radius: 50%;
+  display: flex; align-items: center;
+  justify-content: center;
+  font-size: 22px; font-weight: 800; color: #0d0e12;
+  background: #ffffff;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+  border: 2px solid rgba(255,255,255,0.2);
+}
+.asistente-card-nombre {
+  font-size: 15px; font-weight: 700;
+  color: var(--text-primary);
+}
+.asistente-card-dato {
+  font-size: 12px; color: var(--text-secondary);
+  margin-top: 2px;
+}
+.asistente-card-body { width: 100%; }
+.asistente-card-actions { width: 100%; }
+.asistente-card-actions .btn {
+  width: 100%; justify-content: center;
+}
+
+/* ==========================================
+   AUDITORÍA
+   ========================================== */
+.auditoria-valor {
+  display: inline-block; padding: 3px 8px;
+  border-radius: var(--radius-xs);
+  font-size: 12px; font-weight: 600;
+  max-width: 140px; overflow: hidden;
+  text-overflow: ellipsis; white-space: nowrap;
+}
+.auditoria-valor.anterior {
+  background: rgba(239,68,68,0.12);
+  color: #f87171; text-decoration: line-through;
+}
+.auditoria-valor.nuevo {
+  background: rgba(255,255,255,0.08);
+  color: var(--text-primary);
+}
+
+/* ==========================================
+   DAY GROUP (dashboard admin)
+   ========================================== */
+.day-group { margin-bottom: 16px; }
+.day-group-header {
+  display: flex; align-items: center; gap: 8px;
+  padding: 8px 0; margin-bottom: 8px;
+  border-bottom: 1px solid var(--border);
+  color: var(--text-secondary);
+  font-size: 13px; font-weight: 700;
+}
+.day-total {
+  margin-left: auto;
+  color: var(--text-primary); font-size: 13px;
+}
+
+/* ==========================================
+   NOTA BADGE
+   ========================================== */
+.nota-badge {
+  display: inline-flex; align-items: center;
+  justify-content: center; cursor: pointer;
+  font-size: 14px;
+  transition: transform var(--transition);
+}
+.nota-badge:hover { transform: scale(1.3); }
+
+/* ==========================================
+   EMPTY STATE
+   ========================================== */
+.empty-state {
+  text-align: center; padding: 48px 20px;
+  color: var(--text-muted);
+}
+.empty-state-icon {
+  font-size: 44px; margin-bottom: 12px;
+  opacity: 0.5;
+}
+.empty-state-text { font-size: 14px; }
+
+/* ==========================================
+   LOADING
+   ========================================== */
+.loading-box {
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  padding: 40px;
+}
+.loading-box p {
+  margin-top: 12px;
+  color: var(--text-secondary); font-size: 13px;
+}
+
+/* ==========================================
+   UTILIDADES
+   ========================================== */
+.hidden  { display: none !important; }
+.mb-8    { margin-bottom: 8px; }
+.mb-12   { margin-bottom: 12px; }
+.mb-16   { margin-bottom: 16px; }
+.mb-24   { margin-bottom: 24px; }
+.mt-8    { margin-top: 8px; }
+.mt-16   { margin-top: 16px; }
+.flex    { display: flex; }
+.gap-6   { gap: 6px; }
+.gap-8   { gap: 8px; }
+.gap-12  { gap: 12px; }
+.align-center    { align-items: center; }
+.justify-between { justify-content: space-between; }
+.wrap    { flex-wrap: wrap; }
+.fw-bold { font-weight: 700; }
+.text-center  { text-align: center; }
+.text-success { color: var(--success); }
+.text-danger  { color: #f87171; }
+.text-warning { color: var(--warning); }
+.text-muted   { color: var(--text-muted); }
+.text-gold    { color: var(--text-primary); }
+
+/* ==========================================
+   SCROLLBAR
+   ========================================== */
+::-webkit-scrollbar { width: 4px; height: 4px; }
+::-webkit-scrollbar-track { background: var(--bg-primary); }
+::-webkit-scrollbar-thumb {
+  background: rgba(255,255,255,0.2);
+  border-radius: 2px;
+}
+
+/* ==========================================
+   TABLA (solo para desktop/admin)
+   ========================================== */
+.table-container {
+  overflow-x: auto;
+  border-radius: var(--radius-sm);
+}
+.table {
+  width: 100%; border-collapse: collapse;
+  font-size: 13px;
+}
+.table th {
+  background: rgba(13,14,18,0.8);
+  color: var(--text-primary);
+  font-size: 10px; font-weight: 700;
+  text-transform: uppercase; letter-spacing: 0.8px;
+  padding: 10px 14px; text-align: left;
+  border-bottom: 1px solid var(--border);
+  white-space: nowrap;
+}
+.table td {
+  padding: 10px 14px;
+  border-bottom: 1px solid var(--border);
+  color: var(--text-secondary);
+  vertical-align: middle;
+}
+.table tbody tr:hover { background: var(--bg-card-hover); }
+.table tbody tr:last-child td { border-bottom: none; }
+
+/* ==========================================
+   RESPONSIVE EXTRA
+   ========================================== */
+@media (max-width: 380px) {
+  .metricas-fila { gap: 6px; }
+  .metrica-chip  { padding: 10px 4px; }
+  .metrica-chip-valor { font-size: 13px; }
+  .metrica-chip-label { font-size: 8px; }
+  .page-title { font-size: 18px; }
+}
+
+
+/* ==========================================================================
+   📱 VISTA RESPONSIVA: SOLO PARA MÓVILES Y TABLETS (Máximo 768px de ancho)
+   ========================================================================== */
+@media (max-width: 767px) {
+  
+  /* Ocultamos las tarjetas grandes tradicionales en celular si existieran */
+  .metricas-fila {
+    display: none !important;
+  }
+
+  /* Cabecera compacta en una sola línea flex */
+  .panel-header-compact {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 4px;
+    margin-bottom: 12px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .panel-title-container {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .panel-title-container h2 {
+    font-size: 16px;
+    font-weight: 800;
+    color: var(--text-primary);
+    margin: 0;
+  }
+
+  .panel-emoji {
+    font-size: 18px;
+  }
+
+  /* Métricas integradas como texto fluido con emojis */
+  .panel-metrics-inline {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 12px;
+    font-weight: 700;
+    margin-left: auto;
+    margin-right: 8px;
+  }
+
+  .metric-text-pago {
+    color: var(--success);
+    background: rgba(16, 185, 129, 0.1);
+    padding: 4px 8px;
+    border-radius: var(--radius-xs);
+  }
+
+  .metric-text-serv {
+    color: var(--text-secondary);
+    background: rgba(255, 255, 255, 0.05);
+    padding: 4px 8px;
+    border-radius: var(--radius-xs);
+  }
+
+  /* Botón lupa/filtro minimalista */
+  .btn-toggle-filtro {
+    background: transparent;
+    font-size: 14px;
+    padding: 4px 6px;
+    border-radius: var(--radius-xs);
+    border: none;
+    cursor: pointer;
+  }
+
+  /* Filtro colapsable */
+  .filtro-desplegable {
+    display: none; /* Oculto por defecto en móvil */
+    background: var(--bg-card);
+    padding: 5px;
+    border-radius: var(--radius-md);
+    margin-bottom: 12px;
+  }
+
+  /* ➕ BOTÓN FLOTANTE (FAB) PARA REGISTRAR EN MÓVIL */
+  .btn-flotante-registrar {
+    position: fixed;
+    bottom: 24px;
+    right: 20px;
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #22c55e, #4ade80);
+    color: #0d0e12;
+    font-size: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 16px rgba(34, 197, 94, 0.4);
+    z-index: 90;
+    border: none;
+    cursor: pointer;
+  }
+
+  
+
+  .main-content {
+    padding: 12px 12px 80px;    
+  }
+  .filtro-inline{
+    gap: 5px;
+  }
+  
+  .filtro-item .form-control{
+    
+  }
+}
+
+
+
+
+/* ==========================================================================
+   💻 COMPORTAMIENTO POR DEFECTO (VISTA PC)
+   ========================================================================== */
+.panel-metrics-inline, 
+.btn-toggle-filtro, 
+.btn-flotante-registrar {
+  display: none !important; /* Invisibles en PC */
+}
+
+.btn-pc-solo {
+  display: inline-flex !important; /* Visible en PC */
+}
+
+.filtro-desplegable {
+  display: block !important; /* Siempre fijo en PC */
+}
+
+/* ==========================================================================
+   📱 AISLAMIENTO PARA MÓVILES (768px o menos)
+   ========================================================================== */
+@media (max-width: 768px) {
+  .header-role{
+    display:none;
+  }
+  
+  /* 1. Escondemos elementos de PC en el celular */
+  .page-subtitle,       
+  #mpResumen,          
+  .btn-pc-solo {   
+    display: none !important; /* Oculta el botón de PC en móvil */
+
+  }
+  
+
+  /* 2. Cabecera fluida ultra compacta para celular */
+  .panel-header-movil {
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    padding: 8px 4px !important;
+    margin-bottom: 10px !important;
+    align-items: stretch;
+  }
+
+  /* 3. Métricas inline */
+  .panel-metrics-inline {
+    display: flex !important;
+    align-items: center;
+    gap: 6px;
+    font-size: 11px;
+    font-weight: 700;
+    margin-left: auto;
+    margin-right: 12px;
+  }
+
+  .metric-text-pago {
+    color: var(--success);
+    background: rgba(16, 185, 129, 0.1);
+    padding: 3px 6px;
+    border-radius: var(--radius-xs);
+  }
+
+  .metric-text-serv {
+    color: var(--text-secondary);
+    background: rgba(255, 255, 255, 0.05);
+    padding: 3px 6px;
+    border-radius: var(--radius-xs);
+  }
+
+  /* 4. Controles de filtros en móvil */
+  .btn-toggle-filtro {
+    display: inline-block !important;
+    background: transparent;
+    border: none;
+    font-size: 14px;
+    cursor: pointer;
+  }
+
+  .filtro-desplegable {
+    display: none !important; 
+  }
+
+  .filtro-desplegable.active {
+    display: block !important; /* Se muestra al activar la lupa */
+  }
+
+  /* 5. Botón Flotante redondo en la esquina */
+  .btn-flotante-registrar {
+    display: flex !important;
+    position: fixed;
+    bottom: 24px;
+    right: 20px;
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #22c55e, #4ade80);
+    color: #0d0e12;
+    font-size: 20px;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 16px rgba(34, 197, 94, 0.4);
+    z-index: 999;
+    border: none;
+  }
+}
+
+.card{
+  padding: 10px 5px;
+}
+.periodo-btn {
+
+  font-size: 9px;
+  padding: 10px 6px;
+}
+
+
+.metric-card {
+  padding: 10px 12px;
+}
+.data-card {
+  padding: 10px 10px ;
+}
+
+
+
+.porc-filas{
+  gap:none;
+}
+/* ==========================================
+   PORCENTAJES — vista por servicio
+   ========================================== */
+.porc-card-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-bottom: 12px;
+  gap: 8px;
+}
+.porc-card-nombre {
+  font-size: 15px; font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: 2px;
+}
+.porc-card-cat {
+  font-size: 12px; color: var(--text-muted);
+}
+.porc-card-meta {
+  display: flex; align-items: center;
+  gap: 8px; flex-shrink: 0;
+}
+
+.porc-filas {
+  display: flex; flex-direction: column;
+  gap: 8px;
+}
+.porc-fila {
+  display: flex; align-items: center;
+  gap: 10px;
+  padding: 8px 0;
+  border-bottom: 1px solid rgba(212,160,23,0.08);
+}
+.porc-fila:last-child { border-bottom: none; }
+
+.porc-fila-avatar {
+  width: 32px; height: 32px;
+  border-radius: 50%;
+  display: flex; align-items: center;
+  justify-content: center;
+  font-size: 11px; font-weight: 800;
+  color: white; flex-shrink: 0;
+}
+.porc-fila-nombre {
+  flex: 1;
+  font-size: 13px;
+  color: var(--text-secondary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.porc-fila-valor { flex-shrink: 0; }
+
+.porc-badge {
+  background: rgba(212,160,23,0.15);
+  border: 1px solid rgba(212,160,23,0.3);
+  color: var(--gold-light);
+  padding: 3px 12px;
+  border-radius: 20px;
+  font-size: 13px; font-weight: 800;
+}
+.porc-vacio {
+  font-size: 11px; color: var(--warning);
+}
+
+/* Modal de edición */
+.porc-modal-fila {
+  display: flex; align-items: center;
+  gap: 12px; margin-bottom: 14px;
+}
+.porc-modal-avatar {
+  width: 36px; height: 36px;
+  border-radius: 50%;
+  display: flex; align-items: center;
+  justify-content: center;
+  font-size: 12px; font-weight: 800;
+  color: white; flex-shrink: 0;
+}
+.porc-modal-label {
+  flex: 1;
+  font-size: 14px; font-weight: 600;
+  color: var(--text-primary);
+  min-width: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.porc-modal-input {
+  display: flex; align-items: center;
+  gap: 6px; flex-shrink: 0;
+}
+.porc-modal-input .form-control {
+  width: 72px;
+}
+.porc-pct-label {
+  font-size: 16px; font-weight: 700;
+  color: var(--gold);
+}
+
+
+/* ==========================================
+   BOTONES DE PERÍODO — Dashboard
+   ========================================== */
+.periodo-tabs {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-bottom: 12px;
+}
+.periodo-btn {
+  flex: 1;
+  min-width: 0;
+  padding: 10px 8px;
+  border-radius: var(--radius-sm);
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  border: 1px solid var(--border);
+  background: var(--bg-card);
+  color: var(--text-secondary);
+  transition: all 0.2s;
+  text-align: center;
+  white-space: nowrap;
+}
+.periodo-btn:hover {
+  border-color: var(--border-hover);
+  color: var(--text-primary);
+}
+.periodo-btn.activo {
+  background: linear-gradient(135deg, var(--gold), var(--gold-light));
+  color: #1a0a12;
+  border-color: var(--gold);
+  font-weight: 800;
+  box-shadow: 0 2px 8px rgba(212,160,23,0.3);
+}
+.periodo-fechas-custom {
+  margin-top: 12px;
+}
+
+/* ==========================================
+   REGISTRO ITEM — nueva estructura sin ícono
+   ========================================== */
+.registro-item {
+  padding: 12px 16px;
+  border-bottom: 1px solid rgba(212,160,23,0.1);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.registro-item:last-child { border-bottom: none; }
+
+.registro-item-body {
+  flex: 1;
+  min-width: 0;
+}
+
+.registro-item-nombre {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--text-primary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin-bottom: 4px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.registro-item-meta {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 4px;
+  font-size: 12px;
+}
+
+.registro-item-cliente {
+  color: var(--text-muted);
+}
+
+.registro-meta-sep {
+  color: var(--text-muted);
+  opacity: 0.4;
+}
+
+.registro-item-hora {
+  color: var(--text-secondary);
+  font-size: 12px;
+}
+
+/* ✅ Porcentaje en amarillo dorado */
+.registro-item-porc {
+  color:#f8ffa4 !important;
+  font-weight: 700;
+  font-size: 12px;
+}
+
+.registro-item-right {
+  text-align: right;
+  flex-shrink: 0;
+}
+
+.registro-item-precio {
+  font-size: 14px;
+  font-weight: 800;
+  color: var(--gold-light);
+}
+
+.registro-item-pago {
+  font-size: 11px;
+  color: var(--label-color);
+  margin-top: 2px;
+}
+
+/* En móvil muy pequeño, reducir padding */
+@media (max-width: 360px) {
+  .registro-item { padding: 10px 12px; }
+  .registro-item-nombre { font-size: 13px; }
+  .registro-item-precio { font-size: 13px; }
+}
+@media (max-width: 768px) {
+  .periodo-btn {
+    font-size: 11px;
+  }
+}
+
+
+/* Info de servicio en modal */
+.rs-info-servicio {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  background: rgba(212,160,23,0.08);
+  border: 1px solid rgba(212,160,23,0.2);
+  border-radius: var(--radius-sm);
+  padding: 10px 14px;
+  margin-bottom: 14px;
+  font-size: 13px;
+}
+
+.rs-precio-info {
+  color: var(--text-secondary);
+  font-weight: 600;
+}
+
+.rs-porc-info {
+  color: var(--gold-light);
+  font-weight: 700;
+}
+
+/* ==========================================
+   REGISTROS — CANCELADO y ACCIONES
+   ========================================== */
+
+/* ==========================================
+   REGISTROS — CANCELADO
+   ========================================== */
+.registro-item.cancelado {
+  background: rgba(183,28,28,0.06);
+  border-left: 3px solid var(--danger);
+}
+
+/* ✅ Nombre tachado y en gris */
+.registro-item.cancelado .registro-item-nombre {
+  text-decoration: line-through;
+  color: var(--text-muted);
+}
+
+/* ✅ Precios tachados y en gris — NO ocultar */
+.registro-item.cancelado .registro-item-precio {
+  text-decoration: line-through;
+  color: var(--text-muted);
+}
+.registro-item.cancelado .registro-item-pago {
+  text-decoration: line-through;
+  color: var(--text-muted);
+}
+
+/* ✅ Meta (cliente, hora) también en gris */
+.registro-item.cancelado .registro-item-meta {
+  opacity: 0.5;
+}
+
+.registro-cancelado-badge {
+  font-size: 10px;
+  font-weight: 700;
+  background: rgba(183,28,28,0.2);
+  color: #ff6b6b;
+  border: 1px solid rgba(183,28,28,0.4);
+  border-radius: 4px;
+  padding: 2px 6px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-left: 4px;
+}
+
+/* Botones de acción en PC */
+.registro-acciones-pc {
+  display: none; /* oculto por defecto (móvil) */
+  flex-direction: column;
+  gap: 4px;
+  flex-shrink: 0;
+  margin-left: 8px;
+}
+@media (min-width: 769px) {
+  .registro-acciones-pc { display: flex; }
+}
+.btn-accion-registro {
+  background: transparent;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 4px 8px;
+  font-size: 13px;
+  cursor: pointer;
+  color: var(--text-muted);
+  transition: all 0.2s;
+  white-space: nowrap;
+}
+.btn-accion-registro:hover {
+  background: var(--bg-card-hover);
+  color: var(--text-primary);
+  border-color: var(--border-hover);
+}
+.btn-accion-registro.cancelar:hover {
+  background: rgba(255,138,101,0.15);
+  border-color: var(--warning);
+  color: var(--warning);
+}
+.btn-accion-registro.eliminar:hover {
+  background: rgba(183,28,28,0.15);
+  border-color: var(--danger);
+  color: #ff6b6b;
+}
+
+/* Menú contextual long press (móvil) */
+.menu-contextual {
+  position: fixed;
+  z-index: 300;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: 0 8px 32px rgba(0,0,0,0.5);
+  min-width: 200px;
+  overflow: hidden;
+  animation: slideUp 0.2s ease;
+}
+.menu-contextual-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 20px;
+  font-size: 15px;
+  color: var(--text-primary);
+  cursor: pointer;
+  transition: background 0.15s;
+  border-bottom: 1px solid var(--border);
+}
+.menu-contextual-item:last-child { border-bottom: none; }
+.menu-contextual-item:hover { background: var(--bg-card-hover); }
+.menu-contextual-item.cancelar { color: var(--warning); }
+.menu-contextual-item.eliminar { color: #ff6b6b; }
+.menu-contextual-item.cerrar   { color: var(--text-muted); }
+.menu-contextual-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 299;
+  background: rgba(0,0,0,0.3);
+}
+</style>
+</head>
+<body>
+
+  <!-- SPLASH -->
+  <div id="splash" class="splash-screen">
+    <div class="splash-content">
+      <div class="splash-logo">💎</div>
+      <h1 class="splash-title">Jaise</h1>
+      <p class="splash-sub">Salón de Belleza</p>
+      <div class="spinner"></div>
+    </div>
+  </div>
+
+  <!-- CONFIGURACIÓN DE CONEXIÓN (solo la primera vez por dispositivo) -->
+  <div id="configScreen" class="login-screen hidden">
+    <div class="login-card">
+      <div class="login-header">
+        <div class="login-logo">🔌</div>
+        <h1 class="login-title">Conectar</h1>
+        <p class="login-sub">Configura el servidor una sola vez</p>
+      </div>
+      <div class="login-body">
+        <p class="login-welcome">Pega el enlace que te dio el administrador</p>
+        <div class="form-group">
+          <label class="form-label">Enlace del servidor</label>
+          <div class="input-with-icon">
+            <span class="input-icon">🔗</span>
+            <input type="text" id="configUrl" class="form-control"
+              placeholder="https://script.google.com/.../exec" autocomplete="off">
+          </div>
+        </div>
+        <div id="configError" class="login-error hidden"></div>
+        <button class="btn btn-success btn-block" id="configBtn"
+          onclick="guardarUrlConexion()">
+          <span id="configBtnText">🔌 Conectar</span>
+        </button>
+        <p class="login-hint">🔐 Solo se pide la primera vez en este dispositivo.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- LOGIN -->
+  <div id="loginScreen" class="login-screen hidden">
+    <div class="login-card">
+      <div class="login-header">
+        <div class="login-logo">💎</div>
+        <h1 class="login-title">Jaise</h1>
+        <p class="login-sub">Salón de Belleza</p>
+      </div>
+      <div class="login-body">
+        <p class="login-welcome">Ingresa tus credenciales</p>
+
+        <div class="form-group">
+          <label class="form-label">Correo electrónico</label>
+          <div class="input-with-icon">
+            <span class="input-icon">✉️</span>
+            <input type="email" id="loginEmail" class="form-control"
+              placeholder="tu@correo.com" autocomplete="off"
+              onkeydown="if(event.key==='Enter') document.getElementById('loginPassword').focus()">
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Contraseña</label>
+          <div class="input-with-icon">
+            <span class="input-icon">🔒</span>
+            <input type="password" id="loginPassword" class="form-control"
+              placeholder="Tu contraseña" autocomplete="off"
+              onkeydown="if(event.key==='Enter') hacerLogin()">
+            <button class="toggle-pass" type="button"
+              onclick="togglePassword()">👁️</button>
+          </div>
+        </div>
+
+        <div id="loginError" class="login-error hidden"></div>
+
+        <button class="btn btn-success btn-block" id="loginBtn" onclick="hacerLogin()">
+          <span id="loginBtnText">✨ Ingresar</span>
+        </button>
+
+        <p class="login-hint">🔐 Solo personal autorizado del salón</p>
+        <p class="login-hint" style="margin-top:6px">
+          <span style="cursor:pointer;text-decoration:underline"
+            onclick="resetearConexion()">¿Cambiar de servidor?</span>
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <!-- APP -->
+  <div id="app" class="hidden">
+
+    <!-- HEADER -->
+    <header class="app-header">
+      <div class="header-left">
+        <button class="menu-toggle" onclick="toggleSidebar()" id="menuToggle">☰</button>
+        <span class="header-logo">💎</span>
+        <span class="header-title">Jaise</span>
+      </div>
+      <div class="header-right">
+        <span class="header-user" id="headerUser"></span>
+        <span class="header-role" id="headerRole"></span>
+        <button class="btn-logout" onclick="logout()">Salir</button>
+      </div>
+    </header>
+
+    <!-- OVERLAY SIDEBAR (móvil) -->
+    <div class="sidebar-overlay" id="sidebarOverlay" onclick="cerrarSidebar()"></div>
+
+    <div class="app-body">
+
+      <!-- SIDEBAR -->
+      <nav id="sidebar" class="sidebar">
+
+        <div class="sidebar-section" id="navPrincipal">
+          <div class="sidebar-label">Principal</div>
+          <a class="nav-item" data-page="dashboard" onclick="navigateTo('dashboard')">
+            <span class="nav-icon">📊</span> Dashboard
+          </a>
+          <a class="nav-item" id="nav-miPanel" data-page="miPanel" onclick="navigateTo('miPanel')">
+            <span class="nav-icon">👤</span> Mi Panel
+          </a>
+        </div>
+
+        <div class="sidebar-section" id="adminNav">
+          <div class="sidebar-label">Administración</div>
+          <a class="nav-item" data-page="estadisticas" onclick="navigateTo('estadisticas')">
+            <span class="nav-icon">📈</span> Estadísticas
+          </a>
+          <a class="nav-item" data-page="auditoria" onclick="navigateTo('auditoria')">
+            <span class="nav-icon">🔍</span> Auditoría
+          </a>
+        </div>
+
+        <div class="sidebar-section" id="gestionNav">
+          <div class="sidebar-label">Gestión</div>
+          <a class="nav-item" data-page="clientes" onclick="navigateTo('clientes')">
+            <span class="nav-icon">👥</span> Clientes
+          </a>
+          <a class="nav-item" data-page="servicios" onclick="navigateTo('servicios')">
+            <span class="nav-icon">✂️</span> Servicios
+          </a>
+          <a class="nav-item" data-page="porcentajes" onclick="navigateTo('porcentajes')">
+            <span class="nav-icon">💹</span> Porcentajes
+          </a>
+          <a class="nav-item" data-page="gastos" onclick="navigateTo('gastos')">
+            <span class="nav-icon">💰</span> Gastos
+          </a>
+          <a class="nav-item" data-page="asistentes" onclick="navigateTo('asistentes')">
+            <span class="nav-icon">💇</span> Asistentes
+          </a>
+        </div>
+
+        <div id="sidebarUserInfo" class="sidebar-user-info"></div>
+      </nav>
+
+      <!-- CONTENIDO -->
+      <main id="mainContent" class="main-content"></main>
+
+    </div>
+  </div>
+
+  <!-- TOAST CONTAINER -->
+  <div id="toastContainer"></div>
+
+  <script>
+  // ==========================================
+  // PUENTE API — conecta con Apps Script vía fetch (GitHub Pages)
+  // ==========================================
+  window._usandoShim = false;
+
+  function _getUrlConexion() {
+    try { return localStorage.getItem('esmeraldas_exec_url') || ''; }
+    catch (e) { return ''; }
+  }
+  function _setUrlConexion(url) {
+    try { localStorage.setItem('esmeraldas_exec_url', url); } catch (e) {}
+  }
+  function _borrarUrlConexion() {
+    try { localStorage.removeItem('esmeraldas_exec_url'); } catch (e) {}
+  }
+
+  // Si NO existe el google real (o sea, estamos en GitHub Pages) → instalamos el puente
+  if (!window.google || !window.google.script || !window.google.script.run) {
+    window._usandoShim = true;
+    window.google = { script: { run: _makeRunner(function(){}, function(){}) } };
+  }
+
+  function _makeRunner(onSuccess, onFailure) {
+    const base = {
+      withSuccessHandler: function(fn) { return _makeRunner(fn, onFailure); },
+      withFailureHandler: function(fn) { return _makeRunner(onSuccess, fn); }
+    };
+    return new Proxy(base, {
+      get: function(target, prop) {
+        if (prop in target) return target[prop];
+        if (typeof prop !== 'string') return undefined;
+        // Cualquier otro nombre = una función del servidor
+        return function() {
+          const args = Array.prototype.slice.call(arguments);
+          _apiFetch(prop, args, onSuccess, onFailure);
+        };
+      }
+    });
+  }
+
+  async function _apiFetch(fnName, args, onSuccess, onFailure) {
+    const url = _getUrlConexion();
+    if (!url) { onFailure(new Error('Sin conexión configurada.')); return; }
+    try {
+      const resp = await fetch(url, {
+        method: 'POST',
+        body: JSON.stringify({ fn: fnName, args: args })
+      });
+      const json = await resp.json();
+      if (json && json.__error) {
+        onFailure(new Error(json.message || 'Error del servidor.'));
+      } else {
+        onSuccess(json && json.__ok ? json.data : json);
+      }
+    } catch (err) {
+      onFailure(err);
+    }
+  }
+
+  // Pantalla de configuración de URL
+  function mostrarConfig() {
+    document.getElementById('configScreen').classList.remove('hidden');
+    document.getElementById('loginScreen').classList.add('hidden');
+    document.getElementById('app').classList.add('hidden');
+  }
+
+  function guardarUrlConexion() {
+    const url = (document.getElementById('configUrl').value || '').trim();
+    const err = document.getElementById('configError');
+    if (!url || url.indexOf('/exec') === -1) {
+      err.textContent = '⚠️ Pega un enlace válido que termine en /exec';
+      err.classList.remove('hidden');
+      return;
+    }
+    const btn = document.getElementById('configBtn');
+    const txt = document.getElementById('configBtnText');
+    btn.disabled = true; txt.textContent = 'Probando...';
+    err.classList.add('hidden');
+
+    _setUrlConexion(url);  // guardamos temporalmente para probar
+
+    google.script.run
+      .withSuccessHandler(function() {
+        btn.disabled = false; txt.textContent = '🔌 Conectar';
+        document.getElementById('configScreen').classList.add('hidden');
+        mostrarLogin();  // conexión OK → al login
+      })
+      .withFailureHandler(function() {
+        btn.disabled = false; txt.textContent = '🔌 Conectar';
+        _borrarUrlConexion();  // si falla, no la dejamos guardada
+        err.textContent = '❌ No se pudo conectar. Revisa el enlace.';
+        err.classList.remove('hidden');
+      })
+      .ping();
+  }
+
+  function resetearConexion() {
+    _borrarUrlConexion();
+    mostrarConfig();
+  }
+  // ==========================================
+  // ESTADO GLOBAL
+  // ==========================================
+  const APP = {
+    user: null,
+    asistente: null,
+    asistentes: [],
+    servicios: [],
+    clientes: [],
+    porcentajes: [],
+    gastos: [],
+    currentPage: null,
+    asistenteColors: {},
+  };
+
+  const ASISTENTE_COLOR_PALETTE = [
+    "#c2185b",
+    "#ad1457",
+    "#880e4f",
+    "#6a1042",
+    "#e91e8c",
+    "#d4a017",
+    "#9c27b0",
+  ];
+
+  function getAsistenteColor(id) {
+    if (!APP.asistenteColors[id]) {
+      const idx =
+        Object.keys(APP.asistenteColors).length %
+        ASISTENTE_COLOR_PALETTE.length;
+      APP.asistenteColors[id] = ASISTENTE_COLOR_PALETTE[idx];
+    }
+    return APP.asistenteColors[id];
+  }
+
+  // ==========================================
+  // ARRANQUE — con localStorage, siempre login
+  // ==========================================
+    window.addEventListener("load", () => {
+    hideSplash();
+    // Si usamos el puente (GitHub) y aún no hay URL → pedir configuración
+    if (window._usandoShim && !_getUrlConexion()) {
+      mostrarConfig();
+    } else {
+      mostrarLogin();  // login normal (correo + contraseña)
+    }
+  });
+   
+
+  // ==========================================
+  // SPLASH
+  // ==========================================
+  function hideSplash() {
+    const s = document.getElementById("splash");
+    if (!s) return;
+    s.style.opacity = "0";
+    setTimeout(() => (s.style.display = "none"), 350);
+  }
+
+  function mostrarSplashCarga(msg) {
+    const s = document.getElementById("splash");
+    if (!s) return;
+    s.style.display = "flex";
+    s.style.opacity = "1";
+  }
+
+  // ==========================================
+  // LOGIN
+  // ==========================================
+  function mostrarLogin() {
+    document.getElementById("loginScreen").classList.remove("hidden");
+    document.getElementById("app").classList.add("hidden");
+    const em = document.getElementById("loginEmail");
+    const pw = document.getElementById("loginPassword");
+    const er = document.getElementById("loginError");
+    if (em) {
+      em.value = "";
+    }
+    if (pw) {
+      pw.value = "";
+    }
+    if (er) er.classList.add("hidden");
+    setTimeout(() => {
+      if (em) em.focus();
+    }, 200);
+  }
+
+  function togglePassword() {
+    const pw = document.getElementById("loginPassword");
+    if (pw) pw.type = pw.type === "password" ? "text" : "password";
+  }
+
+  function hacerLogin() {
+    const email = (document.getElementById("loginEmail")?.value || "").trim();
+    const password = (
+      document.getElementById("loginPassword")?.value || ""
+    ).trim();
+    const errorDiv = document.getElementById("loginError");
+    const btn = document.getElementById("loginBtn");
+    const btnText = document.getElementById("loginBtnText");
+
+    errorDiv.classList.add("hidden");
+    if (!email) {
+      mostrarErrorLogin("Ingresa tu correo.");
+      return;
+    }
+    if (!password) {
+      mostrarErrorLogin("Ingresa tu contraseña.");
+      return;
+    }
+
+    btn.disabled = true;
+    btnText.textContent = "Verificando...";
+
+    google.script.run
+      .withSuccessHandler((res) => {
+        btn.disabled = false;
+        btnText.textContent = "✨ Ingresar";
+
+        // ✅ Verificar explícitamente res.ok
+        if (!res || !res.ok) {
+          const msg = res ? res.error : "Error desconocido.";
+          mostrarErrorLogin(msg || "Credenciales incorrectas.");
+          document.getElementById("loginPassword").value = "";
+          document.getElementById("loginPassword").focus();
+          return;
+        }
+
+        // Login OK — cargar datos
+        document.getElementById("loginScreen").classList.add("hidden");
+        mostrarSplashCarga();
+
+        google.script.run
+          .withSuccessHandler((datos) => {
+            hideSplash();
+            if (datos && datos.ok) {
+              inicializarApp(datos);
+            } else {
+              mostrarLogin();
+              mostrarErrorLogin(datos ? datos.error : "Error cargando datos.");
+            }
+          })
+          .withFailureHandler((err) => {
+            hideSplash();
+            mostrarLogin();
+            mostrarErrorLogin("Error cargando panel: " + (err.message || ""));
+          })
+          .getDatosInicialesConEmail(res.user.email);
+      })
+      .withFailureHandler((err) => {
+        btn.disabled = false;
+        btnText.textContent = "✨ Ingresar";
+        // ✅ Mostrar el error real del servidor
+        mostrarErrorLogin("Error: " + (err.message || "No se pudo conectar."));
+      })
+      .loginConEmailYPassword(email, password);
+  }
+
+  function mostrarErrorLogin(msg) {
+    const div = document.getElementById("loginError");
+    if (div) {
+      div.textContent = "⚠️ " + msg;
+      div.classList.remove("hidden");
+    }
+  }
+
+  // ==========================================
+  // INICIALIZAR APP
+  // ==========================================
+  function inicializarApp(datos) {
+    APP.user = datos.user;
+    APP.asistente = datos.asistente || null;
+    APP.asistentes = datos.asistentes || [];
+    APP.servicios = datos.servicios || [];
+    APP.clientes = datos.clientes || [];
+    APP.porcentajes = datos.porcentajes || [];
+    APP.gastos = datos.gastos || [];
+
+    // Construir mapas para acceso O(1)
+    _reconstruirMapas();
+
+    document.getElementById("loginScreen").classList.add("hidden");
+    document.getElementById("app").classList.remove("hidden");
+    setupUI();
+  }
+
+  function _reconstruirMapas() {
+    window._clientesMap = {};
+    window._asistentesMap = {};
+    window._serviciosMap = {};
+    window._porcentajesMap = {};
+
+    APP.clientes.forEach((c) => {
+      window._clientesMap[(c.ID_CLIENTE || "").toString()] = c;
+    });
+    APP.asistentes.forEach((a) => {
+      window._asistentesMap[(a.ID_ASISTENTE || "").toString()] = a;
+    });
+    APP.servicios.forEach((s) => {
+      window._serviciosMap[(s.ID_SERVICIO || "").toString()] = s;
+    });
+    // ✅ Guardar solo el número
+    APP.porcentajes.forEach((p) => {
+      const key = `${p.ID_SERVICIO}_${p.ID_ASISTENTE}`;
+      window._porcentajesMap[key] = parseFloat(p.PORCENTAJE || 0);
+    });
+  }
+
+  // ==========================================
+  // SETUP UI
+  // ==========================================
+  function setupUI() {
+    const isAdmin = APP.user.rol === "ADMINISTRADOR";
+
+    let nombre = APP.user.email.split("@")[0];
+    if (APP.asistente) {
+      nombre =
+        APP.asistente.NOMBRES_COMPLETOS || APP.asistente.nombre || nombre;
+    }
+
+    document.getElementById("headerUser").textContent = nombre;
+    document.getElementById("headerRole").textContent = APP.user.rol;
+    document.getElementById("sidebarUserInfo").innerHTML = `
+    <div class="sidebar-user-email">${APP.user.email}</div>
+    <div class="sidebar-user-rol">${APP.user.rol}</div>`;
+
+    document.getElementById("adminNav").style.display = isAdmin
+      ? "block"
+      : "none";
+    document.getElementById("gestionNav").style.display = isAdmin
+      ? "block"
+      : "none";
+
+    // ✅ Mi Panel SIEMPRE visible (admin también atiende clientes)
+    document.getElementById("nav-miPanel").style.display = "flex";
+
+    // Dashboard solo para admin
+    const navDash = document.querySelector('[data-page="dashboard"]');
+    if (navDash) navDash.style.display = isAdmin ? "flex" : "none";
+
+    navigateTo(isAdmin ? "dashboard" : "miPanel");
+  }
+
+  // ==========================================
+  // LOGOUT
+  // ==========================================
+  function logout() {
+    APP.user = null;
+    APP.asistente = null;
+    APP.asistentes = [];
+    APP.servicios = [];
+    APP.clientes = [];
+    APP.porcentajes = [];
+    APP.gastos = [];
+    APP.currentPage = null;
+    window._clientesMap = {};
+    window._asistentesMap = {};
+    window._serviciosMap = {};
+    google.script.run.cerrarSesion();
+    document.getElementById("app").classList.add("hidden");
+    mostrarLogin();
+  }
+
+  // ==========================================
+  // SIDEBAR
+  // ==========================================
+  function toggleSidebar() {
+    const sidebar = document.getElementById("sidebar");
+    const overlay = document.getElementById("sidebarOverlay");
+    const isOpen = sidebar.classList.contains("open");
+    if (isOpen) cerrarSidebar();
+    else abrirSidebar();
+  }
+
+  function abrirSidebar() {
+    document.getElementById("sidebar").classList.add("open");
+    document.getElementById("sidebarOverlay").classList.add("active");
+  }
+
+  function cerrarSidebar() {
+    document.getElementById("sidebar").classList.remove("open");
+    document.getElementById("sidebarOverlay").classList.remove("active");
+  }
+
+  // ==========================================
+  // NAVEGACIÓN — usa caché, no recarga servidor
+  // ==========================================
+  function navigateTo(page) {
+    // ✅ Asistente solo puede ver miPanel (sigue restringido)
+    if (APP.user?.rol === "ASISTENTE" && page !== "miPanel") {
+      toast("Sin acceso.", "warning");
+      return;
+    }
+    // Admin puede ver TODO incluyendo miPanel
+
+    APP.currentPage = page;
+    cerrarSidebar();
+
+    document.querySelectorAll(".nav-item").forEach((el) => {
+      el.classList.toggle("active", el.dataset.page === page);
+    });
+
+    const main = document.getElementById("mainContent");
+    main.innerHTML = `<div class="loading-box">
+    <div class="spinner"></div><p>Cargando...</p></div>`;
+
+    setTimeout(() => {
+      switch (page) {
+        case "dashboard":
+          renderDashboardAdmin(main);
+          break;
+        case "miPanel":
+          renderMiPanel(main);
+          break;
+        case "clientes":
+          renderClientesContent(main);
+          break;
+        case "servicios":
+          renderServiciosContent(main);
+          break;
+        case "porcentajes":
+          renderPorcentajesContent(main);
+          break;
+        case "gastos":
+          renderGastosContent(main);
+          break;
+        case "asistentes":
+          renderAsistentesContent(main);
+          break;
+        case "estadisticas":
+          renderEstadisticasContent(main);
+          break;
+        case "auditoria":
+          renderAuditoriaContent(main);
+          break;
+        default:
+          main.innerHTML = '<p class="text-muted">Página no encontrada.</p>';
+      }
+    }, 50);
+  }
+
+  // ==========================================
+  // HELPERS LOOKUP — usan mapas O(1)
+  // ==========================================
+  function getAsistenteNombre(id) {
+    const a = window._asistentesMap?.[(id || "").toString()];
+    return a ? a.NOMBRES_COMPLETOS || "—" : `Asistente ${id}`;
+  }
+  function getServicioNombre(id) {
+    const s = window._serviciosMap?.[(id || "").toString()];
+    return s ? s.NOMBRE || "—" : `Servicio ${id}`;
+  }
+  function getClienteNombre(id) {
+    if (!id || id === "") return "—";
+    const c = window._clientesMap?.[(id || "").toString()];
+    return c ? c.NOMBRES_COMPLETOS || "—" : `Cliente ${id}`;
+  }
+  function _buscarClientePorId(id) {
+    return window._clientesMap?.[(id || "").toString()] || null;
+  }
+  function _buscarAsistentePorId(id) {
+    return window._asistentesMap?.[(id || "").toString()] || null;
+  }
+  function _buscarServicioPorId(id) {
+    return window._serviciosMap?.[(id || "").toString()] || null;
+  }
+  function _esActivo(val) {
+    if (val === true || val === 1) return true;
+    if (val === false || val === 0) return false;
+    const s = (val || "").toString().trim().toUpperCase();
+    return (
+      s === "TRUE" || s === "VERDADERO" || s === "1" || s === "SI" || s === "SÍ"
+    );
+  }
+
+  // ==========================================
+  // TOAST
+  // ==========================================
+  function toast(msg, type = "info", duration = 3000) {
+    let c = document.getElementById("toastContainer");
+    if (!c) {
+      c = document.createElement("div");
+      c.id = "toastContainer";
+      document.body.appendChild(c);
+    }
+    const icons = { success: "✅", error: "❌", warning: "⚠️", info: "ℹ️" };
+    const t = document.createElement("div");
+    t.className = `toast ${type}`;
+    t.innerHTML = `<span>${icons[type] || "ℹ️"}</span><span>${msg}</span>`;
+    c.appendChild(t);
+    setTimeout(() => {
+      t.style.opacity = "0";
+      t.style.transform = "translateX(100%)";
+      t.style.transition = "0.3s";
+      setTimeout(() => t.remove(), 300);
+    }, duration);
+  }
+
+  // ==========================================
+  // MODAL — bottom sheet en móvil
+  // ==========================================
+  function openModal(title, bodyHtml, footerHtml = "") {
+    closeModal();
+    const overlay = document.createElement("div");
+    overlay.className = "modal-overlay";
+    overlay.id = "modalOverlay";
+    overlay.onclick = (e) => {
+      if (e.target === overlay) closeModal();
+    };
+    overlay.innerHTML = `
+    <div class="modal">
+      <div class="modal-header">
+        <span class="modal-title">${title}</span>
+        <button class="modal-close" onclick="closeModal()">✕</button>
+      </div>
+      <div class="modal-body">${bodyHtml}</div>
+      ${footerHtml ? `<div class="modal-footer">${footerHtml}</div>` : ""}
+    </div>`;
+    document.body.appendChild(overlay);
+  }
+  function closeModal() {
+    const m = document.getElementById("modalOverlay");
+    if (m) m.remove();
+  }
+
+  // ==========================================
+  // UTILIDADES
+  // ==========================================
+  function formatMoney(val) {
+    const n = parseFloat(val) || 0;
+    return "S/ " + n.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  }
+  // Igual que formatMoney pero SIN el "S/" (para las tarjetas de métricas)
+  function formatNum(val) {
+    const n = parseFloat(val) || 0;
+    return n.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  }
+  function formatDate(str) {
+    if (!str) return "—";
+    const [y, m, d] = str.toString().split("-");
+    if (!y || !m || !d) return str;
+    const meses = [
+      "Ene",
+      "Feb",
+      "Mar",
+      "Abr",
+      "May",
+      "Jun",
+      "Jul",
+      "Ago",
+      "Sep",
+      "Oct",
+      "Nov",
+      "Dic",
+    ];
+    return `${d} ${meses[parseInt(m) - 1]} ${y}`;
+  }
+  function formatDiaSemana(str) {
+    if (!str) return "";
+    const fecha = new Date(str + "T12:00:00");
+    const dias = [
+      "Domingo",
+      "Lunes",
+      "Martes",
+      "Miércoles",
+      "Jueves",
+      "Viernes",
+      "Sábado",
+    ];
+    return dias[fecha.getDay()];
+  }
+  function todayStr() {
+    // ✅ Forzar zona horaria local del dispositivo correctamente
+    const d = new Date();
+    const año = d.getFullYear();
+    const mes = String(d.getMonth() + 1).padStart(2, "0");
+    const dia = String(d.getDate()).padStart(2, "0");
+    return `${año}-${mes}-${dia}`;
+  }
+  function firstDayOfMonth() {
+    const d = new Date();
+    return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-01`;
+  }
+  function lunes() {
+    const hoy = new Date();
+    const dia = hoy.getDay(); // 0=Dom, 1=Lun...
+    const diff = dia === 0 ? -6 : 1 - dia;
+    const lun = new Date(
+      hoy.getFullYear(),
+      hoy.getMonth(),
+      hoy.getDate() + diff,
+    );
+    const año = lun.getFullYear();
+    const mes = String(lun.getMonth() + 1).padStart(2, "0");
+    const d = String(lun.getDate()).padStart(2, "0");
+    return `${año}-${mes}-${d}`;
+  }
+
+  function sabado() {
+    const lun = new Date(lunes() + "T00:00:00");
+    const sab = new Date(lun.getFullYear(), lun.getMonth(), lun.getDate() + 5);
+    const año = sab.getFullYear();
+    const mes = String(sab.getMonth() + 1).padStart(2, "0");
+    const d = String(sab.getDate()).padStart(2, "0");
+    return `${año}-${mes}-${d}`;
+  }
+  function agruparPorDia(registros, campoFecha = "FECHA") {
+    const grupos = {};
+    registros.forEach((r) => {
+      const f = r[campoFecha] || r["FECHA_REGISTRO_SERVICIO"] || "Sin fecha";
+      if (!grupos[f]) grupos[f] = [];
+      grupos[f].push(r);
+    });
+    return Object.keys(grupos)
+      .sort((a, b) => b.localeCompare(a))
+      .map((fecha) => ({ fecha, items: grupos[fecha] }));
+  }
+  function showLoading(container) {
+    container.innerHTML = `<div class="loading-box">
+    <div class="spinner"></div><p>Cargando...</p>
+  </div>`;
+  }
+
+// ==========================================
+  // MI PANEL — Vista (construye la pantalla)
+  // ==========================================
+  function renderMiPanel(main) {
+    const nombre = APP.asistente
+      ? (APP.asistente.NOMBRES_COMPLETOS || APP.user.email.split("@")[0])
+      : APP.user.email.split("@")[0];
+
+    main.innerHTML = `
+      <!-- ENCABEZADO: título + métricas compactas (móvil) + acciones -->
+      <div class="panel-header-movil"
+        style="display:flex;align-items:center;justify-content:space-between;
+               flex-wrap:wrap;gap:8px;margin-bottom:12px">
+
+        <div class="panel-title-container">
+          <span class="panel-emoji">👤</span>
+          <h2>Mi Panel</h2>
+        </div>
+
+        <!-- Métricas compactas: SOLO móvil -->
+        <div id="mpResumenCompacto" class="panel-metrics-inline">
+          <span class="metric-text-pago">💰 S/ 0.00</span>
+          <span class="metric-text-serv">✂️ 0 serv.</span>
+        </div>
+
+        <!-- Registrar: SOLO PC -->
+        <button class="btn btn-success btn-pc-solo"
+          onclick="abrirModalRegistroServicio()">
+          ➕ Registrar Servicio
+        </button>
+
+        <!-- Lupa filtro: SOLO móvil -->
+        <button class="btn-toggle-filtro" onclick="toggleFiltroFechas()">🔍</button>
+      </div>
+
+      <!-- Saludo (se oculta en móvil por CSS) -->
+      <div class="page-subtitle" style="margin:-4px 0 12px 2px">
+        Hola, <strong style="color:var(--gold-light)">${nombre}</strong> 💅
+      </div>
+
+      <!-- FILTRO DE FECHAS (desplegable en móvil, fijo en PC) -->
+      <div class="filtro-desplegable card mb-12">
+        <div class="filtro-inline">
+          <div class="filtro-item">
+            <label class="form-label">Desde</label>
+            <input type="date" id="mpInicio" class="form-control" value="${lunes()}">
+          </div>
+          <div class="filtro-sep">—</div>
+          <div class="filtro-item">
+            <label class="form-label">Hasta</label>
+            <input type="date" id="mpFin" class="form-control" value="${sabado()}">
+          </div>
+          <button class="btn-lupa" onclick="cargarMiPanel()">🔍</button>
+        </div>
+      </div>
+
+      <!-- MÉTRICAS PC (se ocultan en móvil por CSS) -->
+      <div id="mpResumen" class="mb-12"></div>
+
+      <!-- DÍAS COLAPSABLES -->
+      <div id="mpDias"></div>
+
+      <!-- FAB registrar (solo móvil) -->
+      <button class="btn-flotante-registrar"
+        onclick="abrirModalRegistroServicio()">➕</button>`;
+
+    cargarMiPanel();
+  }
+  // ==========================================
+  // MI PANEL — Asistente
+  // ==========================================
+  function cargarMiPanel() {
+    const filtros = {
+      fechaInicio:  document.getElementById('mpInicio')?.value || lunes(),
+      fechaFin:     document.getElementById('mpFin')?.value    || sabado(),
+      emailUsuario: APP.user.email,
+      rolUsuario:   APP.user.rol,
+      soloMiPerfil: true
+    };
+
+    const resumen  = document.getElementById('mpResumen');
+    const diasDiv  = document.getElementById('mpDias');
+    const compacto = document.getElementById('mpResumenCompacto');
+
+    if (diasDiv) {
+      diasDiv.innerHTML = `<div class="loading-box" style="padding:16px">
+        <div class="spinner"></div></div>`;
+    }
+
+    google.script.run
+      .withSuccessHandler(registros => {
+        registros = registros || [];
+
+        const activos = registros.filter(r => {
+          const estado = (r.ESTADO || '').toString().trim().toUpperCase();
+          return estado !== 'CANCELADO';
+        });
+
+        const totalPago = activos.reduce((s, r) =>
+          s + parseFloat(r.PAGO_ASISTENTE || 0), 0);
+        const cantidad  = activos.length;
+        const promedio  = cantidad > 0 ? totalPago / cantidad : 0;
+
+        // PC
+        if (resumen) {
+          resumen.innerHTML = `
+            <div class="metricas-fila">
+              <div class="metrica-chip highlight">
+                <div class="metrica-chip-icon">💰</div>
+                <div class="metrica-chip-valor positive">${formatMoney(totalPago)}</div>
+                <div class="metrica-chip-label">Mi Pago</div>
+              </div>
+              <div class="metrica-chip">
+                <div class="metrica-chip-icon">✂️</div>
+                <div class="metrica-chip-valor">${cantidad}</div>
+                <div class="metrica-chip-label">Servicios</div>
+              </div>
+              <div class="metrica-chip">
+                <div class="metrica-chip-icon">📊</div>
+                <div class="metrica-chip-valor">${formatMoney(promedio)}</div>
+                <div class="metrica-chip-label">Promedio</div>
+              </div>
+            </div>`;
+        }
+
+        // Móvil (header compacto)
+        if (compacto) {
+          const pagoEl = compacto.querySelector('.metric-text-pago');
+          const servEl = compacto.querySelector('.metric-text-serv');
+          if (pagoEl) pagoEl.textContent = `💰 ${formatMoney(totalPago)}`;
+          if (servEl) servEl.textContent = `✂️ ${cantidad} serv.`;
+        }
+
+        renderDiasColapsables(registros, diasDiv);
+      })
+      .withFailureHandler(err => {
+        if (diasDiv) diasDiv.innerHTML =
+          `<p class="text-danger" style="padding:16px">Error: ${err.message}</p>`;
+      })
+      .getRegistrosServicio(filtros);
+  }
+  // Función para alternar los filtros de fecha en la vista móvil
+  function toggleFiltroFechas() {
+    // Buscamos el contenedor directamente por su clase nativa
+    const contenedor = document.querySelector(".filtro-desplegable");
+    if (!contenedor) return;
+
+    if (
+      contenedor.style.getPropertyValue("display") === "block" ||
+      contenedor.classList.contains("active")
+    ) {
+      contenedor.style.setProperty("display", "none", "important");
+      contenedor.classList.remove("active");
+    } else {
+      contenedor.style.setProperty("display", "block", "important");
+      contenedor.classList.add("active");
+    }
+  }
+  
+
+  
+
+  function renderDiasColapsables(registros, container) {
+  if (!container) return;
+
+  if (!registros || registros.length === 0) {
+    container.innerHTML = `
+      <div class="empty-state">
+        <div class="empty-state-icon">📭</div>
+        <div class="empty-state-text">No hay servicios en este período.</div>
+      </div>`;
+    return;
+  }
+
+  const isAdmin = APP.user.rol === 'ADMINISTRADOR';
+  const grupos  = agruparPorDia(registros);
+
+  // ✅ Calcular métricas solo de activos para el resumen
+  // (esto ya se hace arriba en cargarMiPanel, pero asegurar consistencia)
+
+  container.innerHTML = grupos.map((g, idx) => {
+    // ✅ Total del día solo cuenta activos
+    const totalDia = g.items
+      .filter(r => (r.ESTADO||'ACTIVO').toUpperCase() !== 'CANCELADO')
+      .reduce((s,r) => s + parseFloat(r.PAGO_ASISTENTE||0), 0);
+
+    const diaNombre = formatDiaSemana(g.fecha);
+    const id        = `dia_${idx}`;
+
+    return `
+      <div class="dia-grupo">
+        <div class="dia-header" onclick="toggleDia('${id}', this)"
+          id="header_${id}">
+          <div class="dia-header-left">
+            <span class="dia-fecha">${diaNombre} ${formatDate(g.fecha)}</span>
+            <span class="dia-count">
+              ${g.items.length} servicio${g.items.length>1?'s':''}
+            </span>
+          </div>
+          <div class="dia-header-right">
+            <span class="dia-total">${formatMoney(totalDia)}</span>
+            <span class="dia-chevron">▼</span>
+          </div>
+        </div>
+
+        <div class="dia-body" id="${id}">
+          ${g.items.map(r => {
+            const esCancelado = (r.ESTADO||'ACTIVO').toUpperCase() === 'CANCELADO';
+            const regId       = (r.ID_REGISTRO_SERVICIO||'').toString();
+
+            // ─── Hora ────────────────────────────
+            const fechaHoraStr = (r.FECHA_REGISTRO_SERVICIO||'').toString().trim();
+            let horaTexto = '';
+            if (fechaHoraStr && fechaHoraStr.length > 10) {
+              const partes = fechaHoraStr.split(' ');
+              if (partes.length >= 2) {
+                const [hhStr, mmStr] = partes[1].split(':');
+                let hh = parseInt(hhStr, 10) - 2;
+                if (hh < 0) hh += 24;
+                const ampm = hh >= 12 ? 'PM' : 'AM';
+                const h12  = hh === 0 ? 12 : hh > 12 ? hh - 12 : hh;
+                horaTexto  = `${h12}:${mmStr} ${ampm}`;
+              }
+            }
+
+            const porcentaje = r.PORCENTAJE_APLICADO
+              ? parseFloat(r.PORCENTAJE_APLICADO) : 0;
+
+            // ─── Meta línea ──────────────────────
+            const metaPartes = [];
+            if (horaTexto)
+              metaPartes.push(
+                `<span class="registro-item-hora">🕐 ${horaTexto}</span>`
+              );
+            // Porcentaje solo para admin y solo en activos
+            if (isAdmin && !esCancelado && porcentaje > 0)
+              metaPartes.push(
+                `<span class="registro-item-porc">💹 ${porcentaje}%</span>`
+              );
+            const metaHtml = metaPartes.join(
+              '<span class="registro-meta-sep"> · </span>'
+            );
+
+            return `
+              <div class="registro-item ${esCancelado ? 'cancelado' : ''}"
+                ontouchstart="_iniciarLongPress(event,'${regId}',${esCancelado})"
+                ontouchend="_cancelarLongPress()"
+                ontouchmove="_cancelarLongPress()">
+
+                <div class="registro-item-body">
+                  <div class="registro-item-nombre">
+                    ${getServicioNombre(r.ID_SERVICIO)}
+                    ${esCancelado
+                      ? `<span class="registro-cancelado-badge">Cancelado</span>`
+                      : ''}
+                    ${r.NOTA && !esCancelado
+                      ? `<span class="nota-badge"
+                           title="${r.NOTA}"
+                           onclick="event.stopPropagation();
+                             alert('${r.NOTA.replace(/'/g,"\\'")}')">🔔</span>`
+                      : ''}
+                  </div>
+                  <div class="registro-item-meta">
+                    <span class="registro-item-cliente">
+                      👤 ${getClienteNombre(r.ID_CLIENTE)}
+                    </span>
+                    ${metaHtml
+                      ? `<span class="registro-meta-sep"> · </span>${metaHtml}`
+                      : ''}
+                  </div>
+                </div>
+
+                <!-- ✅ Precios SIEMPRE visibles, tachados si cancelado -->
+                <div class="registro-item-right">
+                  ${isAdmin
+                    ? `<div class="registro-item-precio">
+                         ${formatMoney(r.PRECIO)}
+                       </div>`
+                    : ''}
+                  <div class="registro-item-pago">
+                    ${isAdmin ? 'Mi pago:' : '💰'}
+                    ${formatMoney(r.PAGO_ASISTENTE)}
+                  </div>
+                </div>
+
+                <!-- Botones PC -->
+                ${!esCancelado
+                  ? `<div class="registro-acciones-pc">
+                       <button class="btn-accion-registro cancelar"
+                         onclick="pedirCancelarRegistro('${regId}')">
+                         🚫
+                       </button>
+                       ${isAdmin
+                         ? `<button class="btn-accion-registro eliminar"
+                              onclick="pedirEliminarRegistro('${regId}')">
+                              🗑️
+                            </button>`
+                         : ''}
+                     </div>`
+                  : isAdmin
+                    ? `<div class="registro-acciones-pc">
+                         <button class="btn-accion-registro eliminar"
+                           onclick="pedirEliminarRegistro('${regId}')">
+                           🗑️
+                         </button>
+                       </div>`
+                    : ''}
+              </div>`;
+          }).join('')}
+        </div>
+      </div>`;
+  }).join('');
+
+  // Abrir el primer día automáticamente
+  const primerHeader = document.getElementById(`header_dia_0`);
+  const primerBody   = document.getElementById(`dia_0`);
+  if (primerHeader && primerBody) {
+    primerHeader.classList.add('abierto');
+    primerBody.classList.add('abierto');
+  }
+}
+
+  function toggleDia(id, header) {
+    const body = document.getElementById(id);
+    if (!body) return;
+    const abierto = body.classList.toggle("abierto");
+    header.classList.toggle("abierto", abierto);
+  }
+
+  // ==========================================
+  // MODAL REGISTRAR SERVICIO
+  // ==========================================
+  function abrirModalRegistroServicio(registro) {
+    const isEdit = !!registro;
+
+    let idAsistente = "";
+
+    if (APP.user.rol === "ASISTENTE") {
+      if (APP.asistente) {
+        idAsistente = (
+          APP.asistente.ID_ASISTENTE ||
+          APP.asistente.id ||
+          ""
+        ).toString();
+      }
+      if (!idAsistente) {
+        const encontrado = APP.asistentes.find(
+          (a) => (a.EMAIL || "").toLowerCase() === APP.user.email.toLowerCase(),
+        );
+        if (encontrado)
+          idAsistente = (encontrado.ID_ASISTENTE || "").toString();
+      }
+      if (!idAsistente) {
+        toast("No se encontró tu perfil de asistente.", "error");
+        return;
+      }
+    } else if (
+      APP.user.rol === "ADMINISTRADOR" &&
+      APP.currentPage === "miPanel"
+    ) {
+      const encontrado = APP.asistentes.find(
+        (a) => (a.EMAIL || "").toLowerCase() === APP.user.email.toLowerCase(),
+      );
+      if (encontrado) {
+        idAsistente = (encontrado.ID_ASISTENTE || "").toString();
+      } else {
+        toast("Agrégate como asistente con tu mismo correo.", "warning");
+        return;
+      }
+    }
+
+    const body = `
+    <div class="form-group">
+      <label class="form-label">Servicio *</label>
+      <select id="rsServicio" class="form-control"
+        onchange="actualizarPrecioServicio()">
+        <option value="">— Seleccionar servicio —</option>
+        ${APP.servicios
+          .filter((s) => _esActivo(s.ACTIVO))
+          .map(
+            (s) => `
+            <option value="${s.ID_SERVICIO}"
+              data-precio="${s.PRECIO}"
+              ${isEdit && registro?.ID_SERVICIO == s.ID_SERVICIO ? "selected" : ""}>
+              ${s.NOMBRE}
+            </option>`,
+          )
+          .join("")}
+      </select>
+    </div>
+
+    <div id="rsInfoServicio" class="rs-info-servicio hidden">
+      <span id="rsPrecioInfo" class="rs-precio-info"></span>
+      <span class="registro-meta-sep"> · </span>
+      <span id="rsPorcInfo" class="rs-porc-info"></span>
+    </div>
+
+    <div class="form-group">
+      <label class="form-label">Cliente</label>
+      <select id="rsCliente" class="form-control">
+        <option value="">— Sin cliente —</option>
+        ${APP.clientes
+          .map(
+            (c) => `
+          <option value="${c.ID_CLIENTE}"
+            ${isEdit && registro?.ID_CLIENTE == c.ID_CLIENTE ? "selected" : ""}>
+            ${c.NOMBRES_COMPLETOS}
+          </option>`,
+          )
+          .join("")}
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label class="form-label">Precio (S/) *</label>
+      <input type="number" id="rsPrecio" class="form-control"
+        value="${isEdit ? registro.PRECIO : ""}"
+        placeholder="0.00" step="0.01" min="0">
+    </div>
+
+    <div class="form-group">
+      <label class="form-label">Fecha</label>
+      <input type="date" id="rsFecha" class="form-control"
+        value="${isEdit ? registro.FECHA || todayStr() : todayStr()}">
+    </div>
+
+    <input type="hidden" id="rsAsistente" value="${idAsistente}">
+
+    <div class="form-group">
+      <label class="form-label">Nota 🔔</label>
+      <textarea id="rsNota" class="form-control" rows="2"
+        placeholder="Observaciones opcionales...">${isEdit ? registro.NOTA || "" : ""}</textarea>
+    </div>
+
+    <input type="hidden" id="rsIdOculto"
+      value="${isEdit ? registro.ID_REGISTRO_SERVICIO : ""}">`;
+
+    const footer = `
+    <button class="btn btn-ghost" onclick="closeModal()">Cancelar</button>
+    <button class="btn btn-success" onclick="guardarRegistroServicio()">
+      ${isEdit ? "💾 Guardar" : "✅ Registrar"}
+    </button>`;
+
+    openModal(
+      isEdit ? "✏️ Editar Servicio" : "➕ Registrar Servicio",
+      body,
+      footer,
+    );
+
+    // Si es edición, mostrar info del servicio seleccionado
+    if (isEdit) actualizarPrecioServicio();
+  }
+
+  
+
+  function actualizarPrecioServicio() {
+    const sel = document.getElementById("rsServicio");
+    const opt = sel?.options[sel.selectedIndex];
+    const infoDiv = document.getElementById("rsInfoServicio");
+    const precioEl = document.getElementById("rsPrecioInfo");
+    const porcEl = document.getElementById("rsPorcInfo");
+
+    if (!opt || !opt.value) {
+      if (infoDiv) infoDiv.classList.add("hidden");
+      return;
+    }
+
+    // Actualizar precio
+    const precio = opt.dataset.precio || "0";
+    document.getElementById("rsPrecio").value = precio;
+
+    // Buscar porcentaje del asistente para este servicio
+    const idServicio = opt.value;
+    const idAsistente = document.getElementById("rsAsistente")?.value || "";
+
+    let porcTexto = "";
+    if (idAsistente) {
+      const key = `${idServicio}_${idAsistente}`;
+      const porc = window._porcentajesMap?.[key];
+      if (porc !== undefined) {
+        const pagoEstimado = (parseFloat(precio) * parseFloat(porc)) / 100;
+        porcTexto = `💹 ${porc}% → ${formatMoney(pagoEstimado)}`;
+      } else {
+        porcTexto = `⚠️ Sin porcentaje asignado`;
+      }
+    }
+
+    // Mostrar info
+    if (infoDiv) {
+      infoDiv.classList.remove("hidden");
+      if (precioEl) precioEl.textContent = `💵 ${formatMoney(precio)}`;
+      if (porcEl) porcEl.textContent = porcTexto;
+    }
+  }
+
+  function guardarRegistroServicio() {
+    const idServicio = document.getElementById("rsServicio")?.value;
+    const precio = document.getElementById("rsPrecio")?.value;
+    const idAsistente = document.getElementById("rsAsistente")?.value;
+    const idOculto = document.getElementById("rsIdOculto")?.value || "";
+    const esEdicion = idOculto !== "";
+
+    if (!idServicio) {
+      toast("Selecciona un servicio.", "warning");
+      return;
+    }
+    if (!precio) {
+      toast("Ingresa el precio.", "warning");
+      return;
+    }
+    if (!idAsistente) {
+      toast("Sin asistente asignado.", "warning");
+      return;
+    }
+
+    const data = {
+      ID_Servicio: idServicio,
+      Precio: parseFloat(precio),
+      ID_Asistente: idAsistente,
+      ID_Cliente: document.getElementById("rsCliente")?.value || "",
+      Fecha: document.getElementById("rsFecha")?.value || todayStr(),
+      Nota: document.getElementById("rsNota")?.value || "",
+    };
+    if (esEdicion) data.ID = idOculto;
+
+    closeModal();
+
+    google.script.run
+      .withSuccessHandler(() => {
+        toast(
+          esEdicion ? "Servicio actualizado." : "Servicio registrado.",
+          "success",
+        );
+        cargarMiPanel();
+      })
+      .withFailureHandler((err) => toast("Error: " + err.message, "error"))
+      .saveRegistroServicio(data);
+  }
+
+  // ==========================================
+  // DASHBOARD ADMIN
+  // ==========================================
+
+  function renderDashboardAdmin(main) {
+    main.innerHTML = `
+    <div class="page-header">
+      <div>
+        <div class="page-title">📊 Dashboard</div>
+        <div class="page-subtitle">${new Date().toLocaleDateString("es-PE", {
+          weekday: "long",
+          day: "numeric",
+          month: "long",
+        })}</div>
+      </div>
+    </div>
+
+    <div class="card mb-12">
+
+      <!-- Selector de asistente -->
+      <div class="form-group">
+        <label class="form-label">Asistente</label>
+        <select id="fAsistente" class="form-control"
+          onchange="cargarDashboardAdmin()">
+          <option value="">Todos</option>
+          ${APP.asistentes
+            .map(
+              (a) =>
+                `<option value="${a.ID_ASISTENTE}">${a.NOMBRES_COMPLETOS}</option>`,
+            )
+            .join("")}
+        </select>
+      </div>
+
+      <!-- Botones de período -->
+      <div class="periodo-tabs">
+        <button class="periodo-btn" id="btn-hoy"
+          onclick="seleccionarPeriodo('hoy')">Hoy</button>
+        <button class="periodo-btn activo" id="btn-semana"
+          onclick="seleccionarPeriodo('semana')">Esta semana</button>
+        <button class="periodo-btn" id="btn-mes"
+          onclick="seleccionarPeriodo('mes')">Este mes</button>
+        <button class="periodo-btn" id="btn-custom"
+          onclick="seleccionarPeriodo('custom')">Personalizado</button>
+      </div>
+
+      <!-- Fechas personalizadas (ocultas por defecto) -->
+      <div class="periodo-fechas-custom hidden" id="fechasCustom">
+        <div class="filtro-inline">
+          <div class="filtro-item">
+            <label class="form-label">Desde</label>
+            <input type="date" id="fInicio" class="form-control"
+              value="${lunes()}">
+          </div>
+          <div class="filtro-sep">—</div>
+          <div class="filtro-item">
+            <label class="form-label">Hasta</label>
+            <input type="date" id="fFin" class="form-control"
+              value="${todayStr()}">
+          </div>
+          <button class="btn-lupa" onclick="cargarDashboardAdmin()">🔍</button>
+        </div>
+      </div>
+
+    </div>
+
+    <div id="dashMetricas" class="mb-12"></div>
+    <div id="dashServicios"></div>`;
+
+    // Activar semana por defecto
+    seleccionarPeriodo("semana");
+  }
+
+  function seleccionarPeriodo(periodo) {
+    // Actualizar botón activo
+    ["hoy", "semana", "mes", "custom"].forEach((p) => {
+      const btn = document.getElementById(`btn-${p}`);
+      if (btn) btn.classList.toggle("activo", p === periodo);
+    });
+
+    // Mostrar/ocultar fechas personalizadas
+    const fechasCustom = document.getElementById("fechasCustom");
+    if (fechasCustom) {
+      fechasCustom.classList.toggle("hidden", periodo !== "custom");
+    }
+
+    // Guardar período activo
+    window._periodoActivo = periodo;
+
+    // ✅ Si es custom, NO calculamos aún: limpiamos la pantalla anterior
+    // y mostramos un aviso hasta que el usuario presione la lupa 🔍
+    if (periodo === "custom") {
+      const metDiv = document.getElementById("dashMetricas");
+      const serDiv = document.getElementById("dashServicios");
+      if (metDiv) {
+        metDiv.innerHTML = `
+          <div class="empty-state">
+            <div class="empty-state-icon">📅</div>
+            <div class="empty-state-text">
+              Elige un rango de fechas y presiona 🔍 para ver los resultados.
+            </div>
+          </div>`;
+      }
+      if (serDiv) serDiv.innerHTML = "";
+      return;
+    }
+
+    // Para hoy / semana / mes: calcular de una vez
+    cargarDashboardAdmin();
+  }
+
+  function _calcularFechasPeriodo() {
+    const periodo = window._periodoActivo || "semana";
+    const hoy = todayStr();
+
+    if (periodo === "hoy") {
+      return { fechaInicio: hoy, fechaFin: hoy };
+    }
+
+    if (periodo === "semana") {
+      return { fechaInicio: lunes(), fechaFin: sabado() };
+    }
+
+    if (periodo === "mes") {
+      const d = new Date();
+      const año = d.getFullYear();
+      const mes = d.getMonth() + 1;
+      const ult = new Date(año, mes, 0).getDate();
+      return {
+        fechaInicio: `${año}-${String(mes).padStart(2, "0")}-01`,
+        fechaFin: `${año}-${String(mes).padStart(2, "0")}-${String(ult).padStart(2, "0")}`,
+      };
+    }
+
+    if (periodo === "custom") {
+      return {
+        fechaInicio: document.getElementById("fInicio")?.value || lunes(),
+        fechaFin: document.getElementById("fFin")?.value || todayStr(),
+      };
+    }
+
+    return { fechaInicio: lunes(), fechaFin: sabado() };
+  }
+  // ✅ Detecta si un rango de fechas equivale a un mes completo
+  // (empieza el día 1 y termina el último día del MISMO mes)
+  function _rangoEsMesCompleto(fi, ff) {
+    if (!fi || !ff) return { esMes: false };
+    const [ay, am, ad] = fi.split("-").map(Number);
+    const [by, bm, bd] = ff.split("-").map(Number);
+
+    if (ad !== 1) return { esMes: false };          // debe empezar el día 1
+    if (ay !== by || am !== bm) return { esMes: false }; // mismo mes y año
+
+    const ultimoDia = new Date(ay, am, 0).getDate(); // último día del mes
+    if (bd !== ultimoDia) return { esMes: false };
+
+    return { esMes: true, mes: am, año: ay };
+  }
+
+  function cargarDashboardAdmin() {
+    const { fechaInicio, fechaFin } = _calcularFechasPeriodo();
+
+    // ¿El período actual equivale a un mes completo?
+    let esMesCompleto = false;
+    let mesCalc = new Date().getMonth() + 1;
+    let añoCalc = new Date().getFullYear();
+
+    if (window._periodoActivo === "mes") {
+      esMesCompleto = true;
+      mesCalc = parseInt(fechaInicio.substring(5, 7));
+      añoCalc = parseInt(fechaInicio.substring(0, 4));
+    } else if (window._periodoActivo === "custom") {
+      const info = _rangoEsMesCompleto(fechaInicio, fechaFin);
+      esMesCompleto = info.esMes;
+      if (info.esMes) {
+        mesCalc = info.mes;
+        añoCalc = info.año;
+      }
+    }
+    // Hoy y Semana => esMesCompleto se queda en false
+
+    // ✅ Si se filtra por una asistente, el gasto fijo del salón NO se le
+    // atribuye a ella sola → tratamos el período como NO mensual.
+    // (Este ajuste va ANTES de guardar _dashEsMensual, para que el render
+    //  oculte bien las tarjetas de Gastos Fijos y Margen Op.)
+    const hayAsistenteSel =
+      (document.getElementById("fAsistente")?.value || "") !== "";
+    if (hayAsistenteSel) esMesCompleto = false;
+
+    // Guardar para que el render sepa si mostrar Gastos Fijos / Margen Op.
+    window._dashEsMensual = esMesCompleto;
+
+    const incluirGastosFijos = esMesCompleto;
+
+    const filtros = {
+      idAsistente: document.getElementById("fAsistente")?.value || "",
+      fechaInicio,
+      fechaFin,
+      emailUsuario: APP.user.email,
+      rolUsuario: APP.user.rol,
+      incluirGastosFijos,
+      mes: mesCalc,
+      año: añoCalc,
+    };
+
+    const metDiv = document.getElementById("dashMetricas");
+    const serDiv = document.getElementById("dashServicios");
+    if (!metDiv) return;
+
+    metDiv.innerHTML = `<div class="loading-box" style="padding:16px">
+    <div class="spinner"></div></div>`;
+    if (serDiv) serDiv.innerHTML = "";
+
+    google.script.run
+      .withSuccessHandler((data) => renderMetricasSalon(data, metDiv))
+      .withFailureHandler((err) => {
+        metDiv.innerHTML = `<p class="text-danger">Error: ${err.message}</p>`;
+      })
+      .getMetricasSalon(filtros);
+
+    google.script.run
+      .withSuccessHandler((regs) => renderRegistrosDashboard(regs, serDiv))
+      .withFailureHandler(() => {
+        if (serDiv) serDiv.innerHTML = "";
+      })
+      .getRegistrosServicio(filtros);
+  }
+
+  // ✅ Arma el HTML de los bloques (asistentes + dueña)
+  // esMensual: controla si se muestran Gastos Fijos y Margen Op. en asistentes
+  function _htmlBloquesMetricas(data, esMensual) {
+    let html = "";
+
+    // Bloque ASISTENTES
+    if (data.hayAsistentes) {
+      const a = data.asistentes;
+
+      const items = [
+        { label: "Ingreso Bruto",   value: a.ingresoBruto,  icon: "💵", cls: "" },
+        { label: "Costo M.O.",      value: a.costoManoObra, icon: "👷", cls: "" },
+        { label: "Margen Bruto",    value: a.margenBruto,   icon: "📊", cls: "highlight" },
+      ];
+
+      // Solo en MENSUAL: Gastos Fijos + Margen Operativo
+      if (esMensual) {
+        items.push({ label: "Gastos Fijos", value: a.gastosFijos,     icon: "🏢", cls: "" });
+        items.push({ label: "Margen Op.",   value: a.margenOperativo, icon: "⚙️", cls: "" });
+      }
+
+      items.push({ label: "Gastos Var. 10%", value: a.gastosVariables, icon: "📉", cls: "" });
+      items.push({ label: "Utilidad Neta",   value: a.utilidadNeta,    icon: "💹", cls: "highlight" });
+      items.push({ label: "Diezmos 10%",     value: a.diezmos,         icon: "🙏", cls: "" });
+      items.push({ label: "Utilidad Final",  value: a.utilidadFinal,   icon: "🏆", cls: "highlight" });
+
+      html += `
+        <div class="card mb-12">
+          <div class="card-title">✂️ Asistentes (comisión)
+            <span class="badge badge-gold">${a.totalRegistros}</span>
+            <span style="margin-left:auto;font-size:10px;font-weight:400;
+                         color:var(--text-muted)">montos en S/</span>
+          </div>
+          <div class="metrics-grid">
+            ${items.map(m => `
+              <div class="metric-card ${m.cls}">
+                <div style="font-size:20px;margin-bottom:4px">${m.icon}</div>
+                <div class="metric-value ${m.value >= 0 ? "positive" : "negative"}">
+                  ${formatNum(m.value)}
+                </div>
+                <div class="metric-label">${m.label}</div>
+              </div>`).join("")}
+          </div>
+        </div>`;
+    }
+
+    // Bloque DUEÑA — SIN tarjeta de Gastos Fijos (siempre)
+    if (data.hayAdmin) {
+      const d = data.admin;
+
+      const items = [
+        { label: "Mi Ingreso",     value: d.miIngreso,       icon: "💅", cls: "highlight" },
+        { label: "Gastos Var. 10%", value: d.gastosVariables, icon: "📉", cls: "" },
+        { label: "Diezmo 10%",     value: d.diezmos,         icon: "🙏", cls: "" },
+        { label: "Mi Ganancia",    value: d.gananciaFinal,   icon: "🏆", cls: "highlight" },
+      ];
+
+      html += `
+        <div class="card mb-12">
+          <div class="card-title">💅 Mi trabajo personal
+            <span class="badge badge-gold">${d.totalRegistros}</span>
+            <span style="margin-left:auto;font-size:10px;font-weight:400;
+                         color:var(--text-muted)">montos en S/</span>
+          </div>
+          <div class="metrics-grid">
+            ${items.map(m => `
+              <div class="metric-card ${m.cls}">
+                <div style="font-size:20px;margin-bottom:4px">${m.icon}</div>
+                <div class="metric-value ${m.value >= 0 ? "positive" : "negative"}">
+                  ${formatNum(m.value)}
+                </div>
+                <div class="metric-label">${m.label}</div>
+              </div>`).join("")}
+          </div>
+        </div>`;
+    }
+
+    if (!data.hayAsistentes && !data.hayAdmin) {
+      html = `<div class="empty-state">
+        <div class="empty-state-icon">📊</div>
+        <div class="empty-state-text">No hay datos en este período.</div>
+      </div>`;
+    }
+
+    return html;
+  }
+
+  function renderMetricasSalon(data, container) {
+    if (!container) return;
+    // Mes completo (botón "Este mes" O rango personalizado que cubre un mes)
+    const esMensual = window._dashEsMensual === true;
+    container.innerHTML = _htmlBloquesMetricas(data, esMensual);
+  } 
+
+  function renderRegistrosDashboard(registros, container) {
+  if (!container) return;
+  if (!registros || registros.length === 0) {
+    container.innerHTML = `<div class="empty-state">
+      <div class="empty-state-icon">📭</div>
+      <div class="empty-state-text">No hay servicios en este período.</div>
+    </div>`;
+    return;
+  }
+
+  const isAdmin = APP.user.rol === 'ADMINISTRADOR';
+  const grupos  = agruparPorDia(registros);
+
+  container.innerHTML = `
+    <div class="card">
+      <div class="card-title">✂️ Servicios
+        <span class="badge badge-gold">${
+          registros.filter(r =>
+            (r.ESTADO||'ACTIVO').toUpperCase() !== 'CANCELADO'
+          ).length
+        }</span>
+      </div>
+      ${grupos.map((g, idx) => {
+        const totalDia = g.items
+          .filter(r => (r.ESTADO||'ACTIVO').toUpperCase() !== 'CANCELADO')
+          .reduce((s,r) => s + parseFloat(r.PRECIO||0), 0);
+        const id = `dash_dia_${idx}`;
+
+        return `
+          <div class="dia-grupo">
+            <div class="dia-header" onclick="toggleDia('${id}',this)"
+              id="header_${id}">
+              <div class="dia-header-left">
+                <span class="dia-fecha">
+                  ${formatDiaSemana(g.fecha)} ${formatDate(g.fecha)}
+                </span>
+                <span class="dia-count">${g.items.length} serv.</span>
+              </div>
+              <div class="dia-header-right">
+                <span class="dia-total">${formatMoney(totalDia)}</span>
+                <span class="dia-chevron">▼</span>
+              </div>
+            </div>
+
+            <div class="dia-body" id="${id}">
+              ${g.items.map(r => {
+                const esCancelado = (r.ESTADO||'ACTIVO').toUpperCase() === 'CANCELADO';
+                const regId       = (r.ID_REGISTRO_SERVICIO||'').toString();
+
+                // ─── Hora ────────────────────────────
+                const fechaHoraStr = (r.FECHA_REGISTRO_SERVICIO||'').toString().trim();
+                let horaTexto = '';
+                if (fechaHoraStr && fechaHoraStr.length > 10) {
+                  const partes = fechaHoraStr.split(' ');
+                  if (partes.length >= 2) {
+                    const [hhStr, mmStr] = partes[1].split(':');
+                    let hh = parseInt(hhStr, 10) - 2;
+                    if (hh < 0) hh += 24;
+                    const ampm = hh >= 12 ? 'PM' : 'AM';
+                    const h12  = hh === 0 ? 12 : hh > 12 ? hh - 12 : hh;
+                    horaTexto  = `${h12}:${mmStr} ${ampm}`;
+                  }
+                }
+
+                const porcentaje = r.PORCENTAJE_APLICADO
+                  ? parseFloat(r.PORCENTAJE_APLICADO) : 0;
+
+                // ─── Meta línea ──────────────────────
+                const metaPartes = [];
+                if (horaTexto)
+                  metaPartes.push(
+                    `<span class="registro-item-hora">🕐 ${horaTexto}</span>`
+                  );
+                if (!esCancelado && porcentaje > 0)
+                  metaPartes.push(
+                    `<span class="registro-item-porc">💹 ${porcentaje}%</span>`
+                  );
+                const metaHtml = metaPartes.join(
+                  '<span class="registro-meta-sep"> · </span>'
+                );
+
+                return `
+                  <div class="registro-item ${esCancelado ? 'cancelado' : ''}"
+                    ontouchstart="_iniciarLongPress(event,'${regId}',${esCancelado})"
+                    ontouchend="_cancelarLongPress()"
+                    ontouchmove="_cancelarLongPress()">
+
+                    <div class="registro-item-body">
+
+                      <!-- Nombre -->
+                      <div class="registro-item-nombre">
+                        ${getServicioNombre(r.ID_SERVICIO)}
+                        ${esCancelado
+                          ? `<span class="registro-cancelado-badge">Cancelado</span>`
+                          : ''}
+                        ${r.NOTA && !esCancelado
+                          ? `<span class="nota-badge"
+                               onclick="event.stopPropagation();
+                                 alert('${r.NOTA.replace(/'/g,"\\'")}')">
+                               🔔
+                             </span>`
+                          : ''}
+                      </div>
+
+                      <!-- Asistente · Cliente · Hora · % -->
+                      <div class="registro-item-meta">
+                        <span style="color:${getAsistenteColor(r.ID_ASISTENTE)}">
+                          💇 ${getAsistenteNombre(r.ID_ASISTENTE)}
+                        </span>
+                        <span class="registro-meta-sep"> · </span>
+                        <span class="registro-item-cliente">
+                          👤 ${getClienteNombre(r.ID_CLIENTE)}
+                        </span>
+                        ${metaHtml
+                          ? `<span class="registro-meta-sep"> · </span>${metaHtml}`
+                          : ''}
+                      </div>
+
+                    </div>
+
+                    <!-- ✅ Precios SIEMPRE visibles, tachados si cancelado -->
+                    <div class="registro-item-right">
+                      <div class="registro-item-precio">
+                        ${formatMoney(r.PRECIO)}
+                      </div>
+                      <div class="registro-item-pago">
+                        Pago: ${formatMoney(r.PAGO_ASISTENTE)}
+                      </div>
+                    </div>
+
+                    <!-- ✅ Botones solo en PC via CSS -->
+                    <div class="registro-acciones-pc">
+                      ${!esCancelado
+                        ? `<button class="btn-accion-registro cancelar"
+                             onclick="pedirCancelarRegistro('${regId}')"
+                             title="Cancelar">🚫</button>`
+                        : ''}
+                      <button class="btn-accion-registro eliminar"
+                        onclick="pedirEliminarRegistro('${regId}')"
+                        title="Eliminar">🗑️</button>
+                    </div>
+
+                  </div>`;
+              }).join('')}
+            </div>
+          </div>`;
+      }).join('')}
+    </div>`;
+}
+
+  function _hexToRgb(hex) {
+    const r = parseInt(hex.slice(1, 3), 16);
+    const g = parseInt(hex.slice(3, 5), 16);
+    const b = parseInt(hex.slice(5, 7), 16);
+    return `${r},${g},${b}`;
+  }
+
+  // ==========================================
+  // STUBS — se completarán en Entrega 4
+  // ==========================================
+  // ==========================================
+  // CLIENTES
+  // ==========================================
+  function renderClientesContent(main) {
+    main.innerHTML = `
+    <div class="page-header">
+      <div>
+        <div class="page-title">👥 Clientes</div>
+        <div class="page-subtitle">${APP.clientes.length} registrados</div>
+      </div>
+      <button class="btn btn-success" onclick="abrirModalCliente()">➕ Nuevo</button>
+    </div>
+
+    <div class="card mb-12">
+      <div class="filtro-inline">
+        <div class="filtro-item">
+          <input type="text" id="buscarCliente" class="form-control"
+            placeholder="🔍 Buscar nombre, DNI o teléfono..."
+            oninput="filtrarClientes()"
+            style="padding:10px 14px">
+        </div>
+      </div>
+    </div>
+
+    <div id="listaClientes" class="data-cards"></div>
+    <div id="contadorClientes" class="text-muted mb-12"
+      style="font-size:12px;padding:4px 8px">
+      ${APP.clientes.length} clientes
+    </div>`;
+
+    renderTarjetasClientes(APP.clientes);
+  }
+
+  function renderTarjetasClientes(clientes) {
+    const div = document.getElementById("listaClientes");
+    if (!div) return;
+
+    if (!clientes || clientes.length === 0) {
+      div.innerHTML = `<div class="empty-state">
+      <div class="empty-state-icon">👥</div>
+      <div class="empty-state-text">No hay clientes registrados.</div>
+    </div>`;
+      return;
+    }
+
+    div.innerHTML = clientes
+      .map((c) => {
+        const id = (c.ID_CLIENTE || "").toString();
+        const nombre = c.NOMBRES_COMPLETOS || "—";
+        const dni = c.DNI || "—";
+        const tel = c.TELEFONO || "—";
+        const cumple = c.FECHA_CUMPLEANOS || "";
+        const iniciales =
+          nombre
+            .split(" ")
+            .map((p) => p[0] || "")
+            .join("")
+            .substring(0, 2)
+            .toUpperCase() || "??";
+        const color = `hsl(${(id * 67) % 360},50%,45%)`;
+
+        return `
+      <div class="data-card"
+        data-search="${nombre.toLowerCase()} ${dni} ${tel}">
+        <div class="data-card-avatar" style="background:${color}">
+          ${iniciales}
+        </div>
+        <div class="data-card-body">
+          <div class="data-card-nombre">${nombre}</div>
+          <div class="data-card-info">
+            <span class="data-card-dato">🪪 ${dni}</span>
+            <span class="data-card-dato">📞 ${tel}</span>
+            ${cumple ? `<span class="data-card-dato">🎂 ${formatDate(cumple)}</span>` : ""}
+          </div>
+        </div>
+        <div class="data-card-actions">
+          <button class="btn btn-ghost btn-icon"
+            onclick="verDetalleCliente('${id}')" title="Ver">👁️</button>
+          <button class="btn btn-ghost btn-icon"
+            onclick="abrirModalCliente('${id}')" title="Editar">✏️</button>
+          <button class="btn btn-danger btn-icon"
+            onclick="pedirEliminarCliente('${id}')" title="Eliminar">🗑️</button>
+        </div>
+      </div>`;
+      })
+      .join("");
+  }
+
+  function filtrarClientes() {
+    const q = (document.getElementById("buscarCliente")?.value || "")
+      .toLowerCase()
+      .trim();
+    const cards = document.querySelectorAll("#listaClientes .data-card");
+    let visibles = 0;
+    cards.forEach((card) => {
+      const match = (card.dataset.search || "").includes(q);
+      card.style.display = match ? "" : "none";
+      if (match) visibles++;
+    });
+    const contador = document.getElementById("contadorClientes");
+    if (contador)
+      contador.textContent = q
+        ? `${visibles} resultado(s) para "${q}"`
+        : `${APP.clientes.length} clientes`;
+  }
+
+  function cargarClientes() {
+    google.script.run
+      .withSuccessHandler((clientes) => {
+        APP.clientes = clientes || [];
+        window._clientesMap = {};
+        APP.clientes.forEach((c) => {
+          window._clientesMap[(c.ID_CLIENTE || "").toString()] = c;
+        });
+        if (APP.currentPage === "clientes") {
+          renderClientesContent(document.getElementById("mainContent"));
+        }
+      })
+      .withFailureHandler((err) =>
+        toast("Error cargando clientes: " + err.message, "error"),
+      )
+      .getClientes();
+  }
+
+  function abrirModalCliente(id) {
+    const idStr = (id || "").toString();
+    const c = idStr && idStr !== "null" ? _buscarClientePorId(idStr) : null;
+    const isEdit = !!c;
+    const v = (key) => {
+      if (!c) return "";
+      const val = c[key];
+      return val === null || val === undefined
+        ? ""
+        : val.toString().replace(/"/g, "&quot;");
+    };
+
+    const body = `
+    <div class="form-group">
+      <label class="form-label">Nombres Completos *</label>
+      <input type="text" id="cNombre" class="form-control"
+        value="${v("NOMBRES_COMPLETOS")}" placeholder="Nombre completo">
+    </div>
+    <div class="form-group">
+      <label class="form-label">DNI</label>
+      <input type="text" id="cDNI" class="form-control"
+        value="${v("DNI")}" placeholder="12345678" maxlength="8">
+    </div>
+    <div class="form-group">
+      <label class="form-label">Teléfono</label>
+      <input type="text" id="cTelefono" class="form-control"
+        value="${v("TELEFONO")}" placeholder="999999999">
+    </div>
+    <div class="form-group">
+      <label class="form-label">Email</label>
+      <input type="email" id="cEmail" class="form-control"
+        value="${v("CORREO_ELECTRONICO")}" placeholder="cliente@email.com">
+    </div>
+    <div class="form-group">
+      <label class="form-label">Edad</label>
+      <input type="number" id="cEdad" class="form-control"
+        value="${v("EDAD")}" placeholder="25" min="1" max="120">
+    </div>
+    <div class="form-group">
+      <label class="form-label">Género</label>
+      <select id="cGenero" class="form-control">
+        <option value="">— Seleccionar —</option>
+        <option value="Femenino"  ${v("GENERO") === "Femenino" ? "selected" : ""}>Femenino</option>
+        <option value="Masculino" ${v("GENERO") === "Masculino" ? "selected" : ""}>Masculino</option>
+        <option value="Otro"      ${v("GENERO") === "Otro" ? "selected" : ""}>Otro</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label class="form-label">Fecha de Cumpleaños</label>
+      <input type="date" id="cCumple" class="form-control" value="${v("FECHA_CUMPLEANOS")}">
+    </div>
+    <input type="hidden" id="cIdOculto" value="${idStr}">`;
+
+    openModal(
+      isEdit ? `✏️ ${c.NOMBRES_COMPLETOS}` : "➕ Nuevo Cliente",
+      body,
+      `<button class="btn btn-ghost" onclick="closeModal()">Cancelar</button>
+     <button class="btn btn-success" onclick="guardarCliente()">
+       ${isEdit ? "💾 Guardar" : "✅ Crear"}
+     </button>`,
+    );
+  }
+
+  function guardarCliente() {
+    const nombre = (document.getElementById("cNombre")?.value || "").trim();
+    const dni = (document.getElementById("cDNI")?.value || "").trim();
+    const telefono = (document.getElementById("cTelefono")?.value || "").trim();
+    const email = (document.getElementById("cEmail")?.value || "").trim();
+    const edad = document.getElementById("cEdad")?.value || "";
+    const genero = document.getElementById("cGenero")?.value || "";
+    const cumple = document.getElementById("cCumple")?.value || "";
+
+    if (!nombre) {
+      toast("El nombre es obligatorio.", "warning");
+      return;
+    }
+
+    const idOculto = (document.getElementById("cIdOculto")?.value || "").trim();
+    const esEdicion = idOculto && idOculto !== "" && idOculto !== "null";
+
+    // 1. Si es EDICIÓN, actualizamos el estado local de inmediato para máxima velocidad
+    let itemCliente;
+    if (esEdicion) {
+      itemCliente = APP.clientes.find(
+        (x) => (x.ID_CLIENTE || "").toString() === idOculto.toString(),
+      );
+      if (itemCliente) {
+        itemCliente.NOMBRES_COMPLETOS = nombre;
+        itemCliente.DNI = dni;
+        itemCliente.TELEFONO = telefono;
+        itemCliente.CORREO_ELECTRONICO = email;
+        itemCliente.EDAD = edad;
+        itemCliente.GENERO = genero;
+        itemCliente.FECHA_CUMPLEANOS = cumple;
+      }
+      // Sincronizamos los mapas indexados globales (window._clientesMap) y redibujamos la vista
+      if (typeof _reconstruirMapas === "function") _reconstruirMapas();
+      renderClientesContent(document.getElementById("mainContent"));
+      closeModal();
+    } else {
+      // Si es NUEVO, cerramos el modal y dejamos que el backend procese el ID real definitivo
+      closeModal();
+    }
+
+    // 2. Armamos el objeto respetando de forma exacta la estructura que tu Backend (Codigo.gs) espera
+    const data = {
+      NombresCompletos: nombre,
+      DNI: dni,
+      Telefono: telefono,
+      Email: email,
+      Edad: edad,
+      Genero: genero,
+      FechaCumpleanos: cumple,
+    };
+    if (esEdicion) data.ID = idOculto; // Mantenemos data.ID en mayúsculas tal cual tu original
+
+    google.script.run
+      .withSuccessHandler((idReal) => {
+        toast(
+          esEdicion ? "Cliente actualizado." : "Cliente creado con éxito.",
+          "success",
+        );
+
+        // 3. Si fue una CREACIÓN, añadimos el nuevo cliente directo en APP con su ID definitivo
+        if (!esEdicion && idReal) {
+          const nuevoCliente = {
+            ID_CLIENTE: idReal.toString(),
+            NOMBRES_COMPLETOS: nombre,
+            DNI: dni,
+            TELEFONO: telefono,
+            CORREO_ELECTRONICO: email,
+            EDAD: edad,
+            GENERO: genero,
+            FECHA_CUMPLEANOS: cumple,
+          };
+          APP.clientes.push(nuevoCliente);
+
+          // Actualizamos mapas de búsqueda y renderizamos la tarjeta limpia sin retrasos
+          if (typeof _reconstruirMapas === "function") _reconstruirMapas();
+          renderClientesContent(document.getElementById("mainContent"));
+        }
+      })
+      .withFailureHandler((err) => {
+        toast(
+          "Error al guardar el cliente en la nube: " + err.message,
+          "error",
+        );
+      })
+      .saveCliente(data);
+  }
+
+  function pedirEliminarCliente(id) {
+    const c = _buscarClientePorId(id);
+    const nombre = c ? c.NOMBRES_COMPLETOS || "este cliente" : "este cliente";
+    openModal(
+      "⚠️ Eliminar cliente",
+      `<p style="color:var(--text-secondary)">¿Eliminar a <strong>${nombre}</strong>?</p>
+     <input type="hidden" id="eliminarClienteId" value="${id}">`,
+      `<button class="btn btn-ghost" onclick="closeModal()">Cancelar</button>
+     <button class="btn btn-danger" onclick="confirmarEliminarCliente()">🗑️ Eliminar</button>`,
+    );
+  }
+  function confirmarEliminarCliente() {
+    const id = (
+      document.getElementById("eliminarClienteId")?.value || ""
+    ).trim();
+    if (!id) return;
+    closeModal();
+    google.script.run
+      .withSuccessHandler(() => {
+        toast("Cliente eliminado.", "success");
+        cargarClientes();
+      })
+      .withFailureHandler((err) => toast("Error: " + err.message, "error"))
+      .deleteCliente(id);
+  }
+
+  function verDetalleCliente(id) {
+    const c = _buscarClientePorId(id);
+    if (!c) {
+      toast("Cliente no encontrado.", "warning");
+      return;
+    }
+    const nombre = c.NOMBRES_COMPLETOS || "—";
+    const cid = c.ID_CLIENTE || id;
+    const iniciales =
+      nombre
+        .split(" ")
+        .map((p) => p[0] || "")
+        .join("")
+        .substring(0, 2)
+        .toUpperCase() || "??";
+    const color = `hsl(${(parseInt(cid) * 67) % 360},50%,45%)`;
+    const generoIcon =
+      c.GENERO === "Masculino" ? "♂️" : c.GENERO === "Femenino" ? "♀️" : "⚧️";
+
+    openModal(
+      `👤 ${nombre}`,
+      `
+    <div style="display:flex;justify-content:center;padding:8px 0 16px">
+      <svg width="300" height="190" viewBox="0 0 300 190"
+        xmlns="http://www.w3.org/2000/svg"
+        style="border-radius:14px;box-shadow:0 8px 24px rgba(0,0,0,0.5)">
+        <defs>
+          <linearGradient id="cg${cid}" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" style="stop-color:#3d0a22"/>
+            <stop offset="100%" style="stop-color:#1a0a12"/>
+          </linearGradient>
+        </defs>
+        <rect width="300" height="190" rx="14" fill="url(#cg${cid})"/>
+        <rect width="300" height="190" rx="14"
+          fill="none" stroke="rgba(212,160,23,0.3)" stroke-width="1"/>
+        <circle cx="260" cy="30" r="55" fill="rgba(212,160,23,0.05)"/>
+        <text x="18" y="24" font-size="12" fill="rgba(212,160,23,0.7)"
+          font-family="sans-serif" font-weight="700">💎 Esmeraldas</text>
+        <circle cx="48" cy="85" r="32" fill="${color}" opacity="0.9"/>
+        <text x="48" y="92" font-size="16" fill="white"
+          font-family="sans-serif" font-weight="800"
+          text-anchor="middle">${iniciales}</text>
+        <text x="92" y="68" font-size="14" fill="#fce4ec"
+          font-family="sans-serif" font-weight="700">
+          ${nombre.substring(0, 24)}
+        </text>
+        <text x="92" y="86" font-size="11"
+          fill="rgba(244,143,177,0.8)" font-family="sans-serif">
+          🪪 ${c.DNI || "—"}
+        </text>
+        <text x="92" y="102" font-size="11"
+          fill="rgba(244,143,177,0.8)" font-family="sans-serif">
+          📞 ${c.TELEFONO || "—"}
+        </text>
+        <text x="92" y="118" font-size="11"
+          fill="rgba(244,143,177,0.8)" font-family="sans-serif">
+          ✉️ ${(c.CORREO_ELECTRONICO || "—").substring(0, 26)}
+        </text>
+        <text x="92" y="134" font-size="11"
+          fill="rgba(244,143,177,0.8)" font-family="sans-serif">
+          ${generoIcon} ${c.GENERO || "—"} • ${c.EDAD ? c.EDAD + " años" : "—"}
+        </text>
+        <text x="18" y="170" font-size="11"
+          fill="rgba(212,160,23,0.5)" font-family="sans-serif">
+          🎂 ${formatDate(c.FECHA_CUMPLEANOS) || "—"}
+        </text>
+        <text x="282" y="170" font-size="10"
+          fill="rgba(212,160,23,0.3)" font-family="sans-serif"
+          text-anchor="end">#${cid}</text>
+      </svg>
+    </div>`,
+      `<button class="btn btn-ghost" onclick="closeModal()">Cerrar</button>
+     <button class="btn btn-primary"
+       onclick="closeModal();abrirModalCliente('${cid}')">✏️ Editar</button>`,
+    );
+  }
+
+  // ==========================================
+  // SERVICIOS
+  // ==========================================
+  function renderServiciosContent(main) {
+    main.innerHTML = `
+    <div class="page-header">
+      <div>
+        <div class="page-title">✂️ Servicios</div>
+        <div class="page-subtitle">${APP.servicios.length} en catálogo</div>
+      </div>
+      <button class="btn btn-success" onclick="abrirModalServicio()">➕ Nuevo</button>
+    </div>
+    <div id="listaServicios" class="data-cards"></div>`;
+
+    renderTarjetasServicios(APP.servicios);
+  }
+
+  function renderTarjetasServicios(servicios) {
+    const div = document.getElementById("listaServicios");
+    if (!div) return;
+    if (!servicios || servicios.length === 0) {
+      div.innerHTML = `<div class="empty-state">
+      <div class="empty-state-icon">✂️</div>
+      <div class="empty-state-text">No hay servicios.</div></div>`;
+      return;
+    }
+    // Agrupar por categoría
+    const cats = {};
+    servicios.forEach((s) => {
+      const cat = s.CATEGORIA || "Sin categoría";
+      if (!cats[cat]) cats[cat] = [];
+      cats[cat].push(s);
+    });
+
+    div.innerHTML = Object.entries(cats)
+      .map(
+        ([cat, items]) => `
+    <div class="card mb-12">
+      <div class="card-title">🏷️ ${cat}
+        <span class="badge badge-gold">${items.length}</span>
+      </div>
+      ${items
+        .map((s) => {
+          const id = (s.ID_SERVICIO || "").toString();
+          const activo = _esActivo(s.ACTIVO);
+          return `
+          <div class="data-card" style="margin-bottom:8px">
+            <div class="data-card-avatar"
+              style="background:${activo ? "rgba(194,24,91,0.3)" : "rgba(100,100,100,0.2)"}">
+              ✂️
+            </div>
+            <div class="data-card-body">
+              <div class="data-card-nombre">${s.NOMBRE || "—"}</div>
+              <div class="data-card-info">
+                <span class="data-card-dato" style="color:var(--gold-light);font-weight:700">
+                  ${formatMoney(s.PRECIO)}
+                </span>
+                ${
+                  s.DURACION_MIN
+                    ? `<span class="data-card-dato">⏱️ ${s.DURACION_MIN}min</span>`
+                    : ""
+                }
+                <span class="badge ${activo ? "badge-success" : "badge-danger"}"
+                  style="font-size:10px">
+                  ${activo ? "Activo" : "Inactivo"}
+                </span>
+              </div>
+            </div>
+            <div class="data-card-actions">
+              <button class="btn btn-ghost btn-icon"
+                onclick="abrirModalServicio('${id}')">✏️</button>
+              <button class="btn btn-ghost btn-icon"
+                onclick="toggleServicioActivo('${id}')"
+                title="${activo ? "Desactivar" : "Activar"}">
+                ${activo ? "🚫" : "✅"}
+              </button>
+              <button class="btn btn-danger btn-icon"
+                onclick="pedirEliminarServicio('${id}')">🗑️</button>
+            </div>
+          </div>`;
+        })
+        .join("")}
+    </div>`,
+      )
+      .join("");
+  }
+
+  function cargarServicios() {
+    google.script.run
+      .withSuccessHandler((servicios) => {
+        APP.servicios = servicios || [];
+        window._serviciosMap = {};
+        APP.servicios.forEach((s) => {
+          window._serviciosMap[(s.ID_SERVICIO || "").toString()] = s;
+        });
+        if (APP.currentPage === "servicios")
+          renderServiciosContent(document.getElementById("mainContent"));
+      })
+      .withFailureHandler((err) => toast("Error: " + err.message, "error"))
+      .getServicios();
+  }
+
+  function abrirModalServicio(id) {
+    const idStr = (id || "").toString();
+    const s = idStr && idStr !== "null" ? _buscarServicioPorId(idStr) : null;
+    const isEdit = !!s;
+    const v = (key) => {
+      if (!s) return "";
+      const val = s[key];
+      return val === null || val === undefined
+        ? ""
+        : val.toString().replace(/"/g, "&quot;");
+    };
+    const cats = [
+      ...new Set(APP.servicios.map((x) => x.CATEGORIA).filter(Boolean)),
+    ];
+
+    openModal(
+      isEdit ? `✏️ ${s.NOMBRE}` : "➕ Nuevo Servicio",
+      `<div class="form-group">
+       <label class="form-label">Nombre *</label>
+       <input type="text" id="sNombre" class="form-control"
+         value="${v("NOMBRE")}" placeholder="Ej: Pedicure Gel">
+     </div>
+     <div class="form-group">
+       <label class="form-label">Categoría *</label>
+       <input type="text" id="sCategoria" class="form-control"
+         value="${v("CATEGORIA")}" placeholder="Ej: Uñas, Cabello..."
+         list="catSug">
+       <datalist id="catSug">
+         ${cats.map((c) => `<option value="${c}">`).join("")}
+       </datalist>
+     </div>
+     <div class="form-group">
+       <label class="form-label">Precio (S/) *</label>
+       <input type="number" id="sPrecio" class="form-control"
+         value="${v("PRECIO")}" placeholder="0.00" step="0.01" min="0">
+     </div>
+     <div class="form-group">
+       <label class="form-label">Duración (minutos)</label>
+       <input type="number" id="sDuracion" class="form-control"
+         value="${v("DURACION_MIN")}" placeholder="30" min="1">
+     </div>
+     <div class="form-group">
+       <label class="form-label">Estado</label>
+       <select id="sActivo" class="form-control">
+         <option value="true"  ${_esActivo(s?.ACTIVO) || !isEdit ? "selected" : ""}>✅ Activo</option>
+         <option value="false" ${isEdit && !_esActivo(s?.ACTIVO) ? "selected" : ""}>🚫 Inactivo</option>
+       </select>
+     </div>
+     <input type="hidden" id="sIdOculto" value="${idStr}">`,
+      `<button class="btn btn-ghost" onclick="closeModal()">Cancelar</button>
+     <button class="btn btn-success" onclick="guardarServicio()">
+       ${isEdit ? "💾 Guardar" : "✅ Crear"}
+     </button>`,
+    );
+  }
+
+  function guardarServicio() {
+    const nombre = (document.getElementById("sNombre")?.value || "").trim();
+    const categoria = (
+      document.getElementById("sCategoria")?.value || ""
+    ).trim();
+    const precio = document.getElementById("sPrecio")?.value;
+    const duracion = document.getElementById("sDuracion")?.value || "";
+    const activo = document.getElementById("sActivo")?.value === "true";
+
+    if (!nombre) {
+      toast("Nombre obligatorio.", "warning");
+      return;
+    }
+    if (!categoria) {
+      toast("Categoría obligatoria.", "warning");
+      return;
+    }
+    if (!precio) {
+      toast("Precio obligatorio.", "warning");
+      return;
+    }
+
+    const idOculto = (document.getElementById("sIdOculto")?.value || "").trim();
+    const esEdicion = idOculto && idOculto !== "" && idOculto !== "null";
+
+    // 1. Si es EDICIÓN, actualizamos la memoria local y refrescamos la vista al instante
+    let itemServicio;
+    if (esEdicion) {
+      itemServicio = APP.servicios.find(
+        (x) => (x.ID_SERVICIO || "").toString() === idOculto.toString(),
+      );
+      if (itemServicio) {
+        itemServicio.NOMBRE = nombre;
+        itemServicio.CATEGORIA = categoria;
+        itemServicio.PRECIO = parseFloat(precio);
+        itemServicio.DURACION = duracion;
+        itemServicio.ACTIVO = activo;
+      }
+      // Sincronizamos los mapas globales en memoria y redibujamos la sección al instante
+      if (typeof _reconstruirMapas === "function") _reconstruirMapas();
+      renderServiciosContent(document.getElementById("mainContent"));
+      closeModal();
+    } else {
+      // Si es NUEVO, cerramos el modal y dejamos que el backend responda con el ID real
+      closeModal();
+    }
+
+    // 2. Armamos el paquete de datos respetando las propiedades exactas que espera tu Backend (Codigo.gs)
+    const data = {
+      Nombre: nombre,
+      Categoria: categoria,
+      Precio: parseFloat(precio),
+      Duracion: duracion,
+      Activo: activo,
+    };
+    if (esEdicion) data.ID = idOculto; // Mantenemos data.ID en mayúsculas tal cual tu backend lo maneja originalmente
+
+    google.script.run
+      .withSuccessHandler((idReal) => {
+        toast(
+          esEdicion ? "Servicio actualizado." : "Servicio creado con éxito.",
+          "success",
+        );
+
+        // 3. Si fue una CREACIÓN, insertamos el nuevo objeto directo en la APP usando su ID definitivo
+        if (!esEdicion && idReal) {
+          const nuevoServicio = {
+            ID_SERVICIO: idReal.toString(),
+            NOMBRE: nombre,
+            CATEGORIA: categoria,
+            PRECIO: parseFloat(precio),
+            DURACION: duracion,
+            ACTIVO: activo,
+          };
+          APP.servicios.push(nuevoServicio);
+
+          // Actualizamos los mapas indexados de la aplicación y renderizamos la tarjeta lista para usarse
+          if (typeof _reconstruirMapas === "function") _reconstruirMapas();
+          renderServiciosContent(document.getElementById("mainContent"));
+        }
+      })
+      .withFailureHandler((err) => {
+        toast(
+          "Error al guardar el servicio en la nube: " + err.message,
+          "error",
+        );
+      })
+      .saveServicio(data);
+  }
+
+  function toggleServicioActivo(id) {
+    const s = _buscarServicioPorId(id);
+    if (!s) {
+      toast("No encontrado.", "error");
+      return;
+    }
+    const nuevo = !_esActivo(s.ACTIVO);
+    openModal(
+      nuevo ? "✅ Activar servicio" : "🚫 Desactivar servicio",
+      `<p style="color:var(--text-secondary)">
+       ¿${nuevo ? "Activar" : "Desactivar"} <strong>${s.NOMBRE}</strong>?
+     </p>
+     <input type="hidden" id="tsId" value="${id}">
+     <input type="hidden" id="tsEstado" value="${nuevo}">`,
+      `<button class="btn btn-ghost" onclick="closeModal()">Cancelar</button>
+     <button class="btn ${nuevo ? "btn-success" : "btn-danger"}"
+       onclick="confirmarToggleServicio()">
+       ${nuevo ? "✅ Activar" : "🚫 Desactivar"}
+     </button>`,
+    );
+  }
+  function confirmarToggleServicio() {
+    const id = document.getElementById("tsId")?.value || "";
+    const estado = document.getElementById("tsEstado")?.value === "true";
+    const s = _buscarServicioPorId(id);
+    if (!s) return;
+    const data = {
+      ID: id,
+      Nombre: s.NOMBRE,
+      Categoria: s.CATEGORIA || "",
+      Precio: s.PRECIO || 0,
+      Duracion: s.DURACION_MIN || "",
+      Activo: estado,
+    };
+    closeModal();
+    google.script.run
+      .withSuccessHandler(() => {
+        toast(`Servicio ${estado ? "activado" : "desactivado"}.`, "success");
+        cargarServicios();
+      })
+      .withFailureHandler((err) => toast("Error: " + err.message, "error"))
+      .saveServicio(data);
+  }
+  function pedirEliminarServicio(id) {
+    const s = _buscarServicioPorId(id);
+    openModal(
+      "⚠️ Eliminar servicio",
+      `<p style="color:var(--text-secondary)">
+       ¿Eliminar <strong>${s?.NOMBRE || "este servicio"}</strong>?<br>
+       <span style="font-size:12px;color:var(--danger)">
+         Los registros históricos podrían verse afectados.
+       </span>
+     </p>
+     <input type="hidden" id="elimServId" value="${id}">`,
+      `<button class="btn btn-ghost" onclick="closeModal()">Cancelar</button>
+     <button class="btn btn-danger" onclick="confirmarEliminarServicio()">🗑️ Eliminar</button>`,
+    );
+  }
+  function confirmarEliminarServicio() {
+    const id = (document.getElementById("elimServId")?.value || "").trim();
+    if (!id) return;
+    closeModal();
+    google.script.run
+      .withSuccessHandler(() => {
+        toast("Servicio eliminado.", "success");
+        cargarServicios();
+      })
+      .withFailureHandler((err) => toast("Error: " + err.message, "error"))
+      .deleteRowById("Servicio", id);
+  }
+
+  // ==========================================
+  // PORCENTAJES — vista por servicio
+  // ==========================================
+  function renderPorcentajesContent(main) {
+    main.innerHTML = `
+    <div class="page-header">
+      <div>
+        <div class="page-title">💹 Porcentajes</div>
+        <div class="page-subtitle">Comisiones por servicio</div>
+      </div>
+    </div>
+
+    <div class="card mb-12">
+      <input type="text" id="buscarPorcentaje" class="form-control"
+        placeholder="🔍 Buscar servicio..."
+        oninput="filtrarPorcentajes()"
+        style="padding:10px 14px">
+    </div>
+
+    <div id="listaPorcentajes"></div>`;
+
+    google.script.run
+      .withSuccessHandler((data) => {
+        APP.porcentajes = data || [];
+        renderTarjetasPorcentajes(data);
+      })
+      .withFailureHandler((err) => {
+        document.getElementById("listaPorcentajes").innerHTML =
+          `<p class="text-danger">Error: ${err.message}</p>`;
+      })
+      .getPorcentajes();
+  }
+
+  function renderTarjetasPorcentajes(porcentajes) {
+    const div = document.getElementById("listaPorcentajes");
+    if (!div) return;
+
+    if (!APP.servicios || APP.servicios.length === 0) {
+      div.innerHTML = `<div class="empty-state">
+      <div class="empty-state-icon">💹</div>
+      <div class="empty-state-text">No hay servicios registrados.</div>
+    </div>`;
+      return;
+    }
+
+    // Construir mapa de porcentajes: key = "idServicio_idAsistente" → porcentaje
+    const mapaPorc = {};
+    (porcentajes || []).forEach((p) => {
+      const key = `${p.ID_SERVICIO}_${p.ID_ASISTENTE}`;
+      mapaPorc[key] = parseFloat(p.PORCENTAJE || 0);
+    });
+
+    // Renderizar una tarjeta por cada servicio
+    div.innerHTML = APP.servicios
+      .map((s) => {
+        const idServicio = (s.ID_SERVICIO || "").toString();
+        const nombre = s.NOMBRE || "—";
+        const categoria = s.CATEGORIA || "";
+
+        // Ver qué porcentajes existen para este servicio
+        const filas = APP.asistentes.map((a) => {
+          const idAs = (a.ID_ASISTENTE || "").toString();
+          const key = `${idServicio}_${idAs}`;
+          const tiene = mapaPorc[key] !== undefined;
+          const porc = tiene ? mapaPorc[key] : null;
+
+          return { idAs, nombre: a.NOMBRES_COMPLETOS || "—", tiene, porc };
+        });
+
+        const totalAsignados = filas.filter((f) => f.tiene).length;
+
+        return `
+      <div class="porc-card card mb-12"
+        data-search="${nombre.toLowerCase()} ${categoria.toLowerCase()}">
+
+        <!-- Header del servicio -->
+        <div class="porc-card-header">
+          <div class="porc-card-info">
+            <div class="porc-card-nombre">✂️ ${nombre}</div>
+            ${
+              categoria
+                ? `<div class="porc-card-cat">🏷️ ${categoria}</div>`
+                : ""
+            }
+          </div>
+          <div class="porc-card-meta">
+            <span class="badge ${
+              totalAsignados === APP.asistentes.length
+                ? "badge-success"
+                : totalAsignados === 0
+                  ? "badge-danger"
+                  : "badge-warning"
+            }">
+              ${totalAsignados}/${APP.asistentes.length}
+            </span>
+            <button class="btn btn-ghost btn-sm"
+              onclick="abrirModalPorcentaje('${idServicio}')">
+              ✏️ Editar
+            </button>
+          </div>
+        </div>
+
+        <!-- Filas de asistentes -->
+        <div class="porc-filas">
+          ${filas
+            .map(
+              (f) => `
+            <div class="porc-fila">
+              <div class="porc-fila-avatar"
+                style="background:${getAsistenteColor(f.idAs)}">
+                ${f.nombre
+                  .split(" ")
+                  .map((p) => p[0] || "")
+                  .join("")
+                  .substring(0, 2)
+                  .toUpperCase()}
+              </div>
+              <div class="porc-fila-nombre">${f.nombre}</div>
+              <div class="porc-fila-valor ${f.tiene ? "" : "sin-asignar"}">
+                ${
+                  f.tiene
+                    ? `<span class="porc-badge">${f.porc}%</span>`
+                    : `<span class="porc-vacio">⚠️ Sin asignar</span>`
+                }
+              </div>
+            </div>`,
+            )
+            .join("")}
+        </div>
+      </div>`;
+      })
+      .join("");
+  }
+
+  function filtrarPorcentajes() {
+    const q = (document.getElementById("buscarPorcentaje")?.value || "")
+      .toLowerCase()
+      .trim();
+    document
+      .querySelectorAll("#listaPorcentajes .porc-card")
+      .forEach((card) => {
+        const match = (card.dataset.search || "").includes(q);
+        card.style.display = match ? "" : "none";
+      });
+  }
+
+  function abrirModalPorcentaje(idServicio) {
+    const idStr = (idServicio || "").toString();
+    const servicio = APP.servicios.find(
+      (s) => (s.ID_SERVICIO || "").toString() === idStr,
+    );
+    if (!servicio) {
+      toast("Servicio no encontrado.", "error");
+      return;
+    }
+
+    // Construir mapa de porcentajes actuales para este servicio
+    const mapaActual = {};
+    APP.porcentajes.forEach((p) => {
+      if ((p.ID_SERVICIO || "").toString() === idStr) {
+        mapaActual[(p.ID_ASISTENTE || "").toString()] = p.PORCENTAJE;
+      }
+    });
+
+    const campos = APP.asistentes
+      .map((a) => {
+        const idAs = (a.ID_ASISTENTE || "").toString();
+        const nombre = a.NOMBRES_COMPLETOS || "—";
+        const color = getAsistenteColor(idAs);
+        const valor = mapaActual[idAs] !== undefined ? mapaActual[idAs] : "";
+        const iniciales = nombre
+          .split(" ")
+          .map((p) => p[0] || "")
+          .join("")
+          .substring(0, 2)
+          .toUpperCase();
+
+        return `
+      <div class="porc-modal-fila">
+        <div class="porc-modal-avatar" style="background:${color}">
+          ${iniciales}
+        </div>
+        <div class="porc-modal-label">${nombre}</div>
+        <div class="porc-modal-input">
+          <input
+            type="number"
+            id="porc_${idAs}"
+            class="form-control"
+            value="${valor}"
+            placeholder="—"
+            min="0" max="100" step="0.5"
+            style="text-align:center;font-size:16px;
+                   font-weight:700;padding:10px 8px">
+          <span class="porc-pct-label">%</span>
+        </div>
+      </div>`;
+      })
+      .join("");
+
+    const body = `
+    <input type="hidden" id="porcServicioId" value="${idStr}">
+    <p style="color:var(--text-muted);font-size:12px;margin-bottom:16px">
+      💡 Deja vacío para no asignar. Los cambios se aplican al guardar.
+    </p>
+    ${campos}`;
+
+    const footer = `
+    <button class="btn btn-ghost" onclick="closeModal()">Cancelar</button>
+    <button class="btn btn-success" onclick="guardarPorcentajes()">
+      💾 Guardar todos
+    </button>`;
+
+    openModal(`✏️ ${servicio.NOMBRE}`, body, footer);
+  }
+
+  function guardarPorcentajes() {
+    const idServicio = document.getElementById("porcServicioId")?.value || "";
+    if (!idServicio) {
+      toast("Error: servicio no identificado.", "error");
+      return;
+    }
+
+    // Recopilar todos los valores ingresados
+    const items = [];
+    APP.asistentes.forEach((a) => {
+      const idAs = (a.ID_ASISTENTE || "").toString();
+      const input = document.getElementById(`porc_${idAs}`);
+      const val = (input?.value || "").trim();
+
+      if (val !== "" && !isNaN(parseFloat(val))) {
+        items.push({
+          ID_Servicio: idServicio,
+          ID_Asistente: idAs,
+          Porcentaje: parseFloat(val),
+        });
+      }
+      // Si está vacío, no hacemos nada (queda sin asignar)
+    });
+
+    if (items.length === 0) {
+      toast("No ingresaste ningún porcentaje.", "warning");
+      return;
+    }
+
+    closeModal();
+
+    google.script.run
+      .withSuccessHandler(() => {
+        toast(`${items.length} porcentaje(s) guardados.`, "success");
+        // Recargar porcentajes y re-renderizar
+        google.script.run
+          .withSuccessHandler((data) => {
+            APP.porcentajes = data || [];
+            renderTarjetasPorcentajes(data);
+            // Restaurar búsqueda si había filtro activo
+            const q = document.getElementById("buscarPorcentaje")?.value || "";
+            if (q) filtrarPorcentajes();
+          })
+          .getPorcentajes();
+      })
+      .withFailureHandler((err) => toast("Error: " + err.message, "error"))
+      .savePorcentaje({ batch: true, items });
+  }
+
+  // ==========================================
+  // GASTOS
+  // ==========================================
+  function renderGastosContent(main) {
+    main.innerHTML = `
+    <div class="page-header">
+      <div>
+        <div class="page-title">💰 Gastos</div>
+        <div class="page-subtitle">Fijos y variables</div>
+      </div>
+      <button class="btn btn-success" onclick="abrirModalGasto()">➕ Nuevo</button>
+    </div>
+    <div id="listaGastos"></div>`;
+
+    renderTarjetasGastos(APP.gastos);
+  }
+
+  function renderTarjetasGastos(gastos) {
+    const div = document.getElementById("listaGastos");
+    if (!div) return;
+    if (!gastos || gastos.length === 0) {
+      div.innerHTML = `<div class="empty-state">
+      <div class="empty-state-icon">💰</div>
+      <div class="empty-state-text">No hay gastos registrados.</div>
+    </div>`;
+      return;
+    }
+    const fijos = gastos.filter((g) => g.TIPO === "FIJO");
+    const variables = gastos.filter((g) => g.TIPO !== "FIJO");
+    const totalF = fijos.reduce((s, g) => s + parseFloat(g.MONTO || 0), 0);
+    const totalV = variables.reduce((s, g) => s + parseFloat(g.MONTO || 0), 0);
+
+    const seccion = (titulo, items, total, icono) => `
+    <div class="card mb-12">
+      <div class="card-title">
+        ${icono} ${titulo}
+        <span style="margin-left:auto;color:var(--danger);font-weight:800">
+          ${formatMoney(total)}
+        </span>
+      </div>
+      ${items
+        .map((g) => {
+          const id = (g.ID_GASTO || "").toString();
+          return `
+          <div class="data-card" style="margin-bottom:8px">
+            <div class="data-card-avatar"
+              style="background:rgba(183,28,28,0.2);font-size:18px">
+              ${icono}
+            </div>
+            <div class="data-card-body">
+              <div class="data-card-nombre">${g.NOMBRE || "—"}</div>
+              <div class="data-card-info">
+                <span class="data-card-dato">
+                  📅 ${g.MES || "—"}/${g.AÑO || "—"}
+                </span>
+              </div>
+            </div>
+            <div style="text-align:right;margin-right:8px;flex-shrink:0">
+              <div style="font-size:15px;font-weight:800;color:var(--danger)">
+                ${formatMoney(g.MONTO)}
+              </div>
+            </div>
+            <div class="data-card-actions">
+              <button class="btn btn-ghost btn-icon"
+                onclick="abrirModalGasto('${id}')">✏️</button>
+              <button class="btn btn-danger btn-icon"
+                onclick="pedirEliminarGasto('${id}')">🗑️</button>
+            </div>
+          </div>`;
+        })
+        .join("")}
+    </div>`;
+
+    div.innerHTML =
+      seccion("Gastos Fijos", fijos, totalF, "🏢") +
+      seccion("Gastos Variables", variables, totalV, "📉");
+  }
+
+  function cargarGastos() {
+    google.script.run
+      .withSuccessHandler((gastos) => {
+        APP.gastos = gastos || [];
+        if (APP.currentPage === "gastos")
+          renderGastosContent(document.getElementById("mainContent"));
+      })
+      .withFailureHandler((err) => toast("Error: " + err.message, "error"))
+      .getGastos();
+  }
+
+  function abrirModalGasto(id) {
+    const idStr = (id || "").toString();
+    const g =
+      idStr && idStr !== "null"
+        ? APP.gastos.find((x) => (x.ID_GASTO || "").toString() === idStr)
+        : null;
+    const isEdit = !!g;
+    const v = (key) => {
+      if (!g) return "";
+      const val = g[key];
+      return val === null || val === undefined ? "" : val.toString();
+    };
+    const mesActual = new Date().getMonth() + 1;
+    const añoActual = new Date().getFullYear();
+
+    openModal(
+      isEdit ? `✏️ ${g.NOMBRE}` : "➕ Nuevo Gasto",
+      `<div class="form-group">
+       <label class="form-label">Nombre *</label>
+       <input type="text" id="gNombre" class="form-control"
+         value="${v("NOMBRE")}" placeholder="Ej: Alquiler local">
+     </div>
+     <div class="form-group">
+       <label class="form-label">Tipo *</label>
+       <select id="gTipo" class="form-control">
+         <option value="FIJO"       ${v("TIPO") === "FIJO" ? "selected" : ""}>🏢 FIJO</option>
+         <option value="VARIABLE_%" ${v("TIPO") === "VARIABLE_%" ? "selected" : ""}>📉 VARIABLE</option>
+       </select>
+     </div>
+     <div class="form-group">
+       <label class="form-label">Monto (S/) *</label>
+       <input type="number" id="gMonto" class="form-control"
+         value="${v("MONTO")}" placeholder="0.00" step="0.01" min="0">
+     </div>
+     <div class="form-group">
+       <label class="form-label">Mes</label>
+       <input type="number" id="gMes" class="form-control"
+         value="${v("MES") || mesActual}" min="1" max="12">
+     </div>
+     <div class="form-group">
+       <label class="form-label">Año</label>
+       <input type="number" id="gAño" class="form-control"
+         value="${v("AÑO") || añoActual}">
+     </div>
+     <input type="hidden" id="gIdOculto" value="${idStr}">`,
+      `<button class="btn btn-ghost" onclick="closeModal()">Cancelar</button>
+     <button class="btn btn-success" onclick="guardarGasto()">
+       ${isEdit ? "💾 Guardar" : "✅ Crear"}
+     </button>`,
+    );
+  }
+
+  function guardarGasto() {
+    const nombre = (document.getElementById("gNombre")?.value || "").trim();
+    const monto = document.getElementById("gMonto")?.value;
+
+    if (!nombre) {
+      toast("Nombre obligatorio.", "warning");
+      return;
+    }
+    if (!monto) {
+      toast("Monto obligatorio.", "warning");
+      return;
+    }
+
+    const montoNumerico = parseFloat(monto);
+    if (isNaN(montoNumerico) || montoNumerico <= 0) {
+      toast("Por favor, ingresa un monto numérico válido.", "warning");
+      return;
+    }
+
+    const idOculto = (document.getElementById("gIdOculto")?.value || "").trim();
+    const esEdicion = idOculto && idOculto !== "" && idOculto !== "null";
+
+    // 1. Armamos el objeto con el formato EXACTO de tus columnas de Excel
+    const itemGasto = {
+      ID_GASTO: esEdicion ? idOculto : "TEMP_" + Date.now(),
+      NOMBRE: nombre,
+      TIPO: document.getElementById("gTipo")?.value || "",
+      MONTO: montoNumerico,
+      MES: parseInt(
+        document.getElementById("gMes")?.value || new Date().getMonth() + 1,
+      ),
+      AÑO: parseInt(
+        document.getElementById("gAño")?.value || new Date().getFullYear(),
+      ),
+    };
+
+    // 2. ¡Optimización instantánea! Actualizamos la lista local en la memoria de la web
+    if (esEdicion) {
+      const idx = APP.gastos.findIndex(
+        (x) => (x.ID_GASTO || "").toString() === idOculto.toString(),
+      );
+      if (idx !== -1) APP.gastos[idx] = itemGasto;
+    } else {
+      APP.gastos.push(itemGasto);
+    }
+
+    // 3. Pintamos el cambio inmediatamente en la pantalla (0ms de espera)
+    renderGastosContent(document.getElementById("mainContent"));
+    closeModal();
+
+    // 4. Mandamos los datos con la estructura exacta que tu backend (Codigo.gs) espera recibir
+    const data = {
+      Nombre: nombre,
+      Tipo: itemGasto.TIPO,
+      Monto: itemGasto.MONTO,
+      Mes: itemGasto.MES,
+      Año: itemGasto.AÑO,
+    };
+    if (esEdicion) data.ID = idOculto;
+
+    google.script.run
+      .withSuccessHandler((idReal) => {
+        toast(esEdicion ? "Gasto actualizado." : "Gasto creado.", "success");
+
+        // Si fue una creación, vinculamos el ID real de Google Sheets al objeto local
+        if (!esEdicion && idReal) {
+          itemGasto.ID_GASTO = idReal.toString();
+        }
+      })
+      .withFailureHandler((err) => {
+        toast("Error al guardar en la nube: " + err.message, "error");
+      })
+      .saveGasto(data);
+  }
+
+  function pedirEliminarGasto(id) {
+    const g = APP.gastos.find((x) => (x.ID_GASTO || "").toString() === id);
+    openModal(
+      "⚠️ Eliminar gasto",
+      `<p style="color:var(--text-secondary)">
+       ¿Eliminar <strong>${g?.NOMBRE || "este gasto"}</strong>?
+     </p>
+     <input type="hidden" id="elimGastoId" value="${id}">`,
+      `<button class="btn btn-ghost" onclick="closeModal()">Cancelar</button>
+     <button class="btn btn-danger" onclick="confirmarEliminarGasto()">🗑️ Eliminar</button>`,
+    );
+  }
+  function confirmarEliminarGasto() {
+    const id = (document.getElementById("elimGastoId")?.value || "").trim();
+    if (!id) return;
+    closeModal();
+    google.script.run
+      // ✅ AHORA (Instantáneo):
+      .withSuccessHandler(() => {
+        toast("Gasto eliminado.", "success");
+        // Filtra tu arreglo original en memoria usando el ID que acabas de borrar
+        APP.gastos = APP.gastos.filter(
+          (x) => (x.ID_GASTO || "").toString() !== id.toString(),
+        );
+        // Vuelve a pintar la interfaz al instante
+        renderGastosContent(document.getElementById("mainContent"));
+      })
+      .withFailureHandler((err) => toast("Error: " + err.message, "error"))
+      .deleteGasto(id);
+  }
+
+  // ==========================================
+  // ASISTENTES (OPTIMIZADO)
+  // ==========================================
+  function renderAsistentesContent(main) {
+    main.innerHTML = `
+    <div class="page-header">
+      <div>
+        <div class="page-title">💇 Asistentes</div>
+        <div class="page-subtitle">Personal del salón</div>
+      </div>
+      <button class="btn btn-success" onclick="abrirModalAsistente()">➕ Nuevo</button>
+    </div>
+    <div class="asistentes-grid" id="listaAsistentes"></div>`;
+
+    renderTarjetasAsistentes(APP.asistentes);
+  }
+
+  function renderTarjetasAsistentes(asistentes) {
+    const div = document.getElementById("listaAsistentes");
+    if (!div) return;
+
+    if (!asistentes || asistentes.length === 0) {
+      div.innerHTML = `<div class="empty-state">
+      <div class="empty-state-icon">💇</div>
+      <div class="empty-state-text">No hay asistentes registrados.</div>
+    </div>`;
+      return;
+    }
+
+    // Optimización de renderizado mediante acumulación de fragmentos de String
+    let htmlBuffer = "";
+    const total = asistentes.length;
+
+    for (let i = 0; i < total; i++) {
+      const a = asistentes[i];
+      const id = (a.ID_ASISTENTE || "").toString();
+      const nombre = a.NOMBRES_COMPLETOS || "—";
+      const email = a.EMAIL || "—";
+      const tel = a.TELEFONO || "—";
+      const fecha = a.FECHA_INGRESO || "";
+      const dir = a.DIRECCION || "";
+      const emerg = a.CONTACTO_EMERGENCIA || "";
+      const cumple = a.FECHA_CUMPLEANOS || "";
+      const color = getAsistenteColor(id);
+
+      const iniciales =
+        nombre
+          .split(" ")
+          .map((p) => p[0] || "")
+          .join("")
+          .substring(0, 2)
+          .toUpperCase() || "??";
+
+      htmlBuffer += `
+      <div class="asistente-card">
+        <div class="asistente-card-avatar" style="background:${color}">
+          ${iniciales}
+        </div>
+        <div class="asistente-card-body">
+          <div class="asistente-card-nombre">${nombre}</div>
+          <div class="asistente-card-dato">✉️ ${email}</div>
+          <div class="asistente-card-dato">📞 ${tel}</div>
+          ${dir ? `<div class="asistente-card-dato">📍 ${dir}</div>` : ""}
+          ${emerg ? `<div class="asistente-card-dato">🆘 ${emerg}</div>` : ""}
+          ${cumple ? `<div class="asistente-card-dato">🎂 ${formatDate(cumple)}</div>` : ""}
+          <div class="asistente-card-dato">
+            📅 Desde: ${formatDate(fecha) || "—"}
+          </div>
+        </div>
+        <div class="asistente-card-actions">
+          <button class="btn btn-ghost btn-sm"
+            onclick="abrirModalAsistente('${id}')">✏️ Editar</button>
+        </div>
+      </div>`;
+    }
+
+    div.innerHTML = htmlBuffer;
+  }
+
+  function cargarAsistentes() {
+    google.script.run
+      .withSuccessHandler((asistentes) => {
+        APP.asistentes = asistentes || [];
+        window._asistentesMap = {};
+
+        // Bucle indexado ultra veloz para indexación en memoria
+        const len = APP.asistentes.length;
+        for (let i = 0; i < len; i++) {
+          const ast = APP.asistentes[i];
+          window._asistentesMap[(ast.ID_ASISTENTE || "").toString()] = ast;
+        }
+
+        if (APP.currentPage === "asistentes")
+          renderAsistentesContent(document.getElementById("mainContent"));
+      })
+      .withFailureHandler((err) => toast("Error: " + err.message, "error"))
+      .getAsistentes();
+  }
+
+  function abrirModalAsistente(id) {
+    const idStr = (id || "").toString();
+    const a =
+      idStr && idStr !== "null"
+        ? (window._asistentesMap && window._asistentesMap[idStr]) || null
+        : null;
+    const isEdit = !!a;
+
+    const v = (key) => {
+      if (!a) return "";
+      const val = a[key];
+      return val === null || val === undefined
+        ? ""
+        : val.toString().replace(/"/g, "&quot;");
+    };
+
+    const body = `
+    <input type="hidden" id="aIdOculto" value="${idStr}">
+
+    <div class="form-group">
+      <label class="form-label">Nombres Completos *</label>
+      <input type="text" id="aNombre" class="form-control" value="${v("NOMBRES_COMPLETOS")}" placeholder="Nombre completo">
+    </div>
+
+    <div class="form-group">
+      <label class="form-label">Email *</label>
+      <input type="email" id="aEmail" class="form-control" value="${v("EMAIL")}" placeholder="asistente@email.com">
+    </div>
+
+    <div class="form-group">
+      <label class="form-label">Teléfono</label>
+      <input type="text" id="aTelefono" class="form-control" value="${v("TELEFONO")}" placeholder="999999999">
+    </div>
+
+    <div class="form-group">
+      <label class="form-label">Dirección</label>
+      <input type="text" id="aDireccion" class="form-control" value="${v("DIRECCION")}" placeholder="Av. Principal 123">
+    </div>
+
+    <div class="form-group">
+      <label class="form-label">Contacto de Emergencia</label>
+      <input type="text" id="aEmergencia" class="form-control" value="${v("CONTACTO_EMERGENCIA")}" placeholder="999888777">
+    </div>
+
+    <div class="form-group">
+      <label class="form-label">Fecha de Cumpleaños</label>
+      <input type="date" id="aCumple" class="form-control" value="${v("FECHA_CUMPLEANOS")}">
+    </div>
+
+    <div class="form-group">
+      <label class="form-label">Fecha de Ingreso</label>
+      <input type="date" id="aFecha" class="form-control" value="${v("FECHA_INGRESO") || todayStr()}">
+    </div>
+
+    <div style="background:rgba(212,160,23,0.08);border-radius:8px; padding:10px 12px;margin-top:4px">
+      <p style="font-size:12px;color:var(--gold)">
+        💡 Recuerda agregar el email en la hoja <strong>Usuario</strong> con rol ASISTENTE y su contraseña.
+      </p>
+    </div>`;
+
+    const footer = `
+    <button class="btn btn-ghost" onclick="closeModal()">Cancelar</button>
+    <button class="btn btn-success" onclick="guardarAsistente()">
+      ${isEdit ? "💾 Guardar" : "✅ Crear"}
+    </button>`;
+
+    openModal(
+      isEdit ? `✏️ ${a.NOMBRES_COMPLETOS}` : "➕ Nuevo Asistente",
+      body,
+      footer,
+    );
+  }
+
+  function guardarAsistente() {
+    const nombre = (document.getElementById("aNombre")?.value || "").trim();
+    const email = (document.getElementById("aEmail")?.value || "").trim();
+
+    if (!nombre) {
+      toast("Nombre obligatorio.", "warning");
+      return;
+    }
+    if (!email) {
+      toast("Email obligatorio.", "warning");
+      return;
+    }
+
+    const idOculto = (document.getElementById("aIdOculto")?.value || "").trim();
+    const esEdicion = idOculto && idOculto !== "" && idOculto !== "null";
+
+    // 1. Recogemos los datos del formulario
+    const data = {
+      NombresCompletos: nombre,
+      Email: email,
+      Telefono: (document.getElementById("aTelefono")?.value || "").trim(),
+      Direccion: (document.getElementById("aDireccion")?.value || "").trim(),
+      ContactoEmergencia: (
+        document.getElementById("aEmergencia")?.value || ""
+      ).trim(),
+      FechaCumpleanos: document.getElementById("aCumple")?.value || "",
+      FechaIngreso: document.getElementById("aFecha")?.value || todayStr(),
+    };
+
+    if (esEdicion) data.id = idOculto;
+
+    // Cerramos el modal de inmediato
+    closeModal();
+
+    // 2. CAMBIO CRÍTICO: Actualizamos la memoria local e INTERFAZ ANTES de ir al servidor
+    let idParaFrontend = esEdicion ? idOculto : "TEMP_" + Date.now();
+
+    const objetoAsistente = {
+      ID_ASISTENTE: idParaFrontend,
+      NOMBRES_COMPLETOS: data.NombresCompletos,
+      EMAIL: data.Email,
+      TELEFONO: data.Telefono,
+      DIRECCION: data.Direccion,
+      CONTACTO_EMERGENCIA: data.ContactoEmergencia,
+      FECHA_CUMPLEANOS: data.FechaCumpleanos,
+      FECHA_INGRESO: data.FechaIngreso,
+    };
+
+    if (esEdicion) {
+      const index = APP.asistentes.findIndex(
+        (x) => (x.ID_ASISTENTE || "").toString() === idOculto,
+      );
+      if (index !== -1) APP.asistentes[index] = objetoAsistente;
+    } else {
+      APP.asistentes.push(objetoAsistente);
+    }
+
+    // Sincronizamos el mapa rápido en memoria
+    window._asistentesMap[idParaFrontend] = objetoAsistente;
+
+    // RE-RENDERIZADO INSTANTÁNEO EN PANTALLA (Cero lag visual)
+    if (APP.currentPage === "asistentes") {
+      renderTarjetasAsistentes(APP.asistentes);
+    }
+
+    // 3. Enviamos los datos en segundo plano sin bloquear al usuario
+    google.script.run
+      .withSuccessHandler((response) => {
+        toast(
+          esEdicion ? "Asistente actualizado." : "Asistente creado.",
+          "success",
+        );
+
+        // Si fue una creación, el servidor nos da el ID real definitivo. Reemplazamos el id temporal.
+        if (!esEdicion && response) {
+          const indexTemp = APP.asistentes.findIndex(
+            (x) => x.ID_ASISTENTE === idParaFrontend,
+          );
+          if (indexTemp !== -1) {
+            APP.asistentes[indexTemp].ID_ASISTENTE = response.toString();
+            window._asistentesMap[response.toString()] =
+              APP.asistentes[indexTemp];
+            delete window._asistentesMap[idParaFrontend];
+
+            // Refrescamos discretamente con el ID real de la base de datos
+            if (APP.currentPage === "asistentes")
+              renderTarjetasAsistentes(APP.asistentes);
+          }
+        }
+      })
+      .withFailureHandler((err) => {
+        toast("Error al sincronizar: " + err.message, "error");
+        // Opcional: Aquí podrías recargar llamando a cargarAsistentes() si deseas revertir el cambio fallido
+      })
+      .saveAsistente(data);
+  }
+
+  // ==========================================
+  // ESTADÍSTICAS
+  // ==========================================
+  function renderEstadisticasContent(main) {
+    const mesActual = new Date().getMonth() + 1;
+    const añoActual = new Date().getFullYear();
+    const meses = [
+      "Enero",
+      "Febrero",
+      "Marzo",
+      "Abril",
+      "Mayo",
+      "Junio",
+      "Julio",
+      "Agosto",
+      "Septiembre",
+      "Octubre",
+      "Noviembre",
+      "Diciembre",
+    ];
+
+    main.innerHTML = `
+    <div class="page-header">
+      <div>
+        <div class="page-title">📈 Estadísticas</div>
+        <div class="page-subtitle">Rendimiento del salón</div>
+      </div>
+    </div>
+
+    <div class="card mb-12">
+      <div class="form-group">
+        <label class="form-label">Vista</label>
+        <select id="estVista" class="form-control"
+          onchange="toggleVistaEst()">
+          <option value="MENSUAL">📅 Mensual</option>
+          <option value="SEMANAL">📆 Semanal</option>
+        </select>
+      </div>
+      <div id="estMensualWrap">
+        <div class="filtro-inline">
+          <div class="filtro-item">
+            <label class="form-label">Mes</label>
+            <select id="estMes" class="form-control" style="font-size:13px;padding:9px 8px">
+              ${meses
+                .map(
+                  (m, i) => `
+                <option value="${i + 1}" ${i + 1 === mesActual ? "selected" : ""}>
+                  ${m}
+                </option>`,
+                )
+                .join("")}
+            </select>
+          </div>
+          <div class="filtro-item">
+            <label class="form-label">Año</label>
+            <input type="number" id="estAño" class="form-control"
+              value="${añoActual}" style="font-size:13px;padding:9px 8px">
+          </div>
+          <button class="btn-lupa" onclick="cargarEstadisticas()">🔍</button>
+        </div>
+      </div>
+      <div id="estSemanalWrap" class="hidden">
+        <div class="filtro-inline">
+          <div class="filtro-item">
+            <label class="form-label">Inicio semana</label>
+            <input type="date" id="estSemIni" class="form-control"
+              value="${lunes()}" style="font-size:13px;padding:9px 8px">
+          </div>
+          <button class="btn-lupa" onclick="cargarEstadisticas()">🔍</button>
+        </div>
+      </div>
+      <div class="form-group mt-8">
+        <label class="form-label">Asistente</label>
+        <select id="estAsistente" class="form-control">
+          <option value="">Todos</option>
+          ${APP.asistentes
+            .map(
+              (a) => `
+            <option value="${a.ID_ASISTENTE}">${a.NOMBRES_COMPLETOS}</option>`,
+            )
+            .join("")}
+        </select>
+      </div>
+    </div>
+
+    <div id="estMetricas" class="mb-12"></div>
+    <div id="estDetalle"></div>`;
+
+    cargarEstadisticas();
+  }
+
+  function toggleVistaEst() {
+    const v = document.getElementById("estVista")?.value;
+    document
+      .getElementById("estMensualWrap")
+      .classList.toggle("hidden", v === "SEMANAL");
+    document
+      .getElementById("estSemanalWrap")
+      .classList.toggle("hidden", v !== "SEMANAL");
+  }
+
+  function cargarEstadisticas() {
+    const vista = document.getElementById("estVista")?.value || "MENSUAL";
+    const mes = parseInt(
+      document.getElementById("estMes")?.value || new Date().getMonth() + 1,
+    );
+    const año = parseInt(
+      document.getElementById("estAño")?.value || new Date().getFullYear(),
+    );
+    const idAs = document.getElementById("estAsistente")?.value || "";
+    const semIni = document.getElementById("estSemIni")?.value || lunes();
+
+    let fechaInicio, fechaFin;
+    if (vista === "MENSUAL") {
+      fechaInicio = `${año}-${String(mes).padStart(2, "0")}-01`;
+      const ult = new Date(año, mes, 0).getDate();
+      fechaFin = `${año}-${String(mes).padStart(2, "0")}-${ult}`;
+    } else {
+      fechaInicio = semIni;
+      const fin = new Date(semIni);
+      fin.setDate(fin.getDate() + 6);
+      fechaFin = fin.toISOString().split("T")[0];
+    }
+
+    // ✅ Gasto fijo SOLO en vista Mensual Y cuando es "Todos".
+    // Si se filtra por una asistente, el gasto fijo del salón no se le
+    // atribuye a ella sola (es un costo del salón completo).
+    const esTodos  = (idAs === "");
+    const esMensual = (vista === "MENSUAL") && esTodos;
+
+    // Guardar para que el render sepa si mostrar Gastos Fijos / Margen Op.
+    window._estEsMensual = esMensual;
+
+    const filtros = {
+      fechaInicio, fechaFin, idAsistente: idAs, mes, año,
+      emailUsuario: APP.user.email,
+      rolUsuario: APP.user.rol,
+      incluirGastosFijos: esMensual,
+    };
+    const metDiv = document.getElementById("estMetricas");
+    const detDiv = document.getElementById("estDetalle");
+    if (!metDiv) return;
+
+    metDiv.innerHTML = `<div class="loading-box" style="padding:16px">
+    <div class="spinner"></div></div>`;
+
+    google.script.run
+      .withSuccessHandler((data) =>
+        renderMetricasSalonEst(data, fechaInicio, fechaFin, metDiv),
+      )
+      .withFailureHandler((err) => {
+        metDiv.innerHTML = `<p class="text-danger">${err.message}</p>`;
+      })
+      .getMetricasSalon(filtros);
+
+    google.script.run
+      .withSuccessHandler((regs) => renderDetalleEst(regs, detDiv, idAs))
+      .withFailureHandler(() => {
+        if (detDiv) detDiv.innerHTML = "";
+      })
+      .getRegistrosServicio(filtros);
+  }
+
+  function renderMetricasSalonEst(data, fi, ff, container) {
+    if (!container) return;
+    // Mensual real = Vista Mensual + "Todos" (calculado en cargarEstadisticas)
+    const esMensual = window._estEsMensual === true;
+    container.innerHTML = `
+      <div class="card mb-12">
+        <div class="card-title">📊 Período
+          <span style="font-size:11px;color:var(--text-muted);font-weight:400">
+            ${formatDate(fi)} → ${formatDate(ff)}
+          </span>
+        </div>
+      </div>
+      ${_htmlBloquesMetricas(data, esMensual)}`;
+  }
+
+  function renderDetalleEst(registros, container, idAs) {
+    if (!container) return;
+    if (!registros || registros.length === 0) {
+      container.innerHTML = `<div class="empty-state">
+      <div class="empty-state-icon">📭</div>
+      <div class="empty-state-text">No hay registros en este período.</div>
+    </div>`;
+      return;
+    }
+
+    if (idAs) {
+      const grupos = agruparPorDia(registros);
+      container.innerHTML = `<div class="card">
+      <div class="card-title">✂️ Detalle
+        <span class="badge badge-gold">${registros.length}</span>
+      </div>
+      ${grupos
+        .map((g, idx) => {
+          const totalDia = g.items.reduce(
+            (s, r) => s + parseFloat(r.PRECIO || 0),
+            0,
+          );
+          const id = `est_${idx}`;
+          return `
+          <div class="dia-grupo">
+            <div class="dia-header" onclick="toggleDia('${id}',this)">
+              <div class="dia-header-left">
+                <span class="dia-fecha">${formatDiaSemana(g.fecha)} ${formatDate(g.fecha)}</span>
+              </div>
+              <div class="dia-header-right">
+                <span class="dia-total">${formatMoney(totalDia)}</span>
+                <span class="dia-chevron">▼</span>
+              </div>
+            </div>
+            <div class="dia-body" id="${id}">
+              ${g.items
+                .map(
+                  (r) => `
+                <div class="registro-item">
+                  <div class="registro-item-icon">✂️</div>
+                  <div class="registro-item-body">
+                    <div class="registro-item-nombre">
+                      ${getServicioNombre(r.ID_SERVICIO)}
+                    </div>
+                    <div class="registro-item-cliente">
+                      👤 ${getClienteNombre(r.ID_CLIENTE)}
+                    </div>
+                  </div>
+                  <div class="registro-item-right">
+                    <div class="registro-item-precio">${formatMoney(r.PRECIO)}</div>
+                    <div class="registro-item-pago">
+                      Pago: ${formatMoney(r.PAGO_ASISTENTE)}
+                    </div>
+                  </div>
+                </div>`,
+                )
+                .join("")}
+            </div>
+          </div>`;
+        })
+        .join("")}
+    </div>`;
+    } else {
+      const porAs = {};
+      registros.forEach((r) => {
+        const k = (r.ID_ASISTENTE || "").toString();
+        if (!porAs[k]) porAs[k] = [];
+        porAs[k].push(r);
+      });
+      container.innerHTML = Object.entries(porAs)
+        .map(([idA, regs]) => {
+          const color = getAsistenteColor(idA);
+          const totalAs = regs.reduce(
+            (s, r) => s + parseFloat(r.PRECIO || 0),
+            0,
+          );
+          const pagoAs = regs.reduce(
+            (s, r) => s + parseFloat(r.PAGO_ASISTENTE || 0),
+            0,
+          );
+          const id = `eas_${idA}`;
+          return `
+        <div class="card mb-12">
+          <div class="card-title">
+            <span style="width:10px;height:10px;border-radius:50%;
+              background:${color};display:inline-block"></span>
+            ${getAsistenteNombre(idA)}
+            <span class="badge badge-gold">${regs.length}</span>
+            <span style="margin-left:auto;font-size:13px;color:var(--gold-light)">
+              ${formatMoney(totalAs)}
+            </span>
+          </div>
+          <button class="btn btn-ghost btn-sm mb-8"
+            onclick="toggleDia('${id}',this)">Ver detalle ▼</button>
+          <div id="${id}" class="hidden">
+            ${agruparPorDia(regs)
+              .map((g, idx) => {
+                const gid = `eg_${idA}_${idx}`;
+                const tot = g.items.reduce(
+                  (s, r) => s + parseFloat(r.PRECIO || 0),
+                  0,
+                );
+                return `
+                <div class="dia-grupo">
+                  <div class="dia-header" onclick="toggleDia('${gid}',this)">
+                    <div class="dia-header-left">
+                      <span class="dia-fecha">${formatDate(g.fecha)}</span>
+                    </div>
+                    <div class="dia-header-right">
+                      <span class="dia-total">${formatMoney(tot)}</span>
+                      <span class="dia-chevron">▼</span>
+                    </div>
+                  </div>
+                  <div class="dia-body" id="${gid}">
+                    ${g.items
+                      .map(
+                        (r) => `
+                      <div class="registro-item">
+                        <div class="registro-item-icon">✂️</div>
+                        <div class="registro-item-body">
+                          <div class="registro-item-nombre">
+                            ${getServicioNombre(r.ID_SERVICIO)}
+                          </div>
+                          <div class="registro-item-cliente">
+                            👤 ${getClienteNombre(r.ID_CLIENTE)}
+                          </div>
+                        </div>
+                        <div class="registro-item-right">
+                          <div class="registro-item-precio">
+                            ${formatMoney(r.PRECIO)}
+                          </div>
+                        </div>
+                      </div>`,
+                      )
+                      .join("")}
+                  </div>
+                </div>`;
+              })
+              .join("")}
+          </div>
+        </div>`;
+        })
+        .join("");
+    }
+  }
+
+  // ==========================================
+  // AUDITORÍA
+  // ==========================================
+  function renderAuditoriaContent(main) {
+    main.innerHTML = `
+    <div class="page-header">
+      <div>
+        <div class="page-title">🔍 Auditoría</div>
+        <div class="page-subtitle">Historial de cambios</div>
+      </div>
+    </div>
+    <div class="card mb-12">
+      <div class="form-group">
+        <label class="form-label">Usuario</label>
+        <select id="audAs" class="form-control">
+          <option value="">Todos</option>
+          ${APP.asistentes
+            .map(
+              (a) => `
+            <option value="${a.EMAIL || a.email}">
+              ${a.NOMBRES_COMPLETOS}
+            </option>`,
+            )
+            .join("")}
+        </select>
+      </div>
+      <div class="filtro-inline">
+        <div class="filtro-item">
+          <label class="form-label">Desde</label>
+          <input type="date" id="audIni" class="form-control"
+            value="${firstDayOfMonth()}" style="font-size:13px;padding:9px 8px">
+        </div>
+        <div class="filtro-sep">—</div>
+        <div class="filtro-item">
+          <label class="form-label">Hasta</label>
+          <input type="date" id="audFin" class="form-control"
+            value="${todayStr()}" style="font-size:13px;padding:9px 8px">
+        </div>
+        <button class="btn-lupa" onclick="cargarAuditoria()">🔍</button>
+      </div>
+    </div>
+    <div id="listaAuditoria"></div>`;
+
+    cargarAuditoria();
+  }
+
+  function cargarAuditoria() {
+    const div = document.getElementById("listaAuditoria");
+    if (!div) return;
+    div.innerHTML = `<div class="loading-box"><div class="spinner"></div></div>`;
+    google.script.run
+      .withSuccessHandler((data) => renderTablaAuditoria(data))
+      .withFailureHandler((err) => {
+        div.innerHTML = `<p class="text-danger">${err.message}</p>`;
+      })
+      .getAuditoria();
+  }
+
+  function renderTablaAuditoria(registros) {
+    const div = document.getElementById("listaAuditoria");
+    if (!div) return;
+    const fAs = document.getElementById("audAs")?.value || "";
+    const fIni = document.getElementById("audIni")?.value || "";
+    const fFin = document.getElementById("audFin")?.value || "";
+
+    let data = (registros || [])
+      .filter((r) => {
+        const fecha = (r.FECHA || "").substring(0, 10);
+        if (fAs && (r.EMAIL_USUARIO || "").toLowerCase() !== fAs.toLowerCase())
+          return false;
+        if (fIni && fecha < fIni) return false;
+        if (fFin && fecha > fFin) return false;
+        return true;
+      })
+      .sort((a, b) => (b.FECHA || "").localeCompare(a.FECHA || ""));
+
+    if (!data.length) {
+      div.innerHTML = `<div class="empty-state">
+      <div class="empty-state-icon">🔍</div>
+      <div class="empty-state-text">No hay registros en este período.</div>
+    </div>`;
+      return;
+    }
+
+    const porFecha = {};
+    data.forEach((r) => {
+      const d = (r.FECHA || "").substring(0, 10);
+      if (!porFecha[d]) porFecha[d] = [];
+      porFecha[d].push(r);
+    });
+
+    div.innerHTML = `<div class="card">
+    <div class="card-title">🔍 Cambios
+      <span class="badge badge-gold">${data.length}</span>
+    </div>
+    ${Object.entries(porFecha)
+      .map(
+        ([dia, items]) => `
+      <div class="day-group">
+        <div class="day-group-header">
+          📅 ${formatDate(dia)}
+          <span class="badge badge-info">${items.length}</span>
+        </div>
+        ${items
+          .map(
+            (r) => `
+          <div class="data-card" style="margin-bottom:8px;flex-direction:column;
+            align-items:flex-start;gap:6px">
+            <div class="flex gap-8 align-center" style="width:100%">
+              <span style="font-size:12px;color:var(--text-muted)">
+                🕐 ${(r.FECHA || "").substring(11, 16)}
+              </span>
+              <span style="font-size:13px;color:var(--label-color)"   >
+                👤 ${(r.EMAIL_USUARIO || "").split("@")[0]}
+              </span>
+              <span class="badge badge-gold" style="margin-left:auto">
+                #${r.ID_REGISTRO}
+              </span>
+            </div>
+            <div class="flex gap-8 align-center wrap">
+              <span class="badge badge-purple">📝 ${r.CAMPO}</span>
+              <span class="auditoria-valor anterior">${r.VALOR_ANTERIOR || "—"}</span>
+              <span style="color:var(--text-muted)">→</span>
+              <span class="auditoria-valor nuevo">${r.VALOR_NUEVO || "—"}</span>
+            </div>
+          </div>`,
+          )
+          .join("")}
+      </div>`,
+      )
+      .join("")}
+  </div>`;
+  }
+
+  function _stubModulo(main, icon, nombre) {
+    main.innerHTML = `
+    <div class="page-header">
+      <div class="page-title">${icon} ${nombre}</div>
+    </div>
+    <div class="card">
+      <div class="empty-state">
+        <div class="empty-state-icon">${icon}</div>
+        <div class="empty-state-text">Módulo en la Entrega 4</div>
+      </div>
+    </div>`;
+  }
+
+  // ==========================================
+  // CANCELAR / ELIMINAR REGISTROS
+  // ==========================================
+
+  let _longPressTimer = null;
+  let _longPressTarget = null;
+
+  function _iniciarLongPress(e, idRegistro, esCancelado) {
+    // Solo en móvil
+    if (window.innerWidth >= 769) return;
+
+    _longPressTimer = setTimeout(() => {
+      e.preventDefault();
+      _mostrarMenuContextual(e, idRegistro, esCancelado);
+    }, 600);
+  }
+
+  function _cancelarLongPress() {
+    if (_longPressTimer) {
+      clearTimeout(_longPressTimer);
+      _longPressTimer = null;
+    }
+  }
+
+  function _mostrarMenuContextual(e, idRegistro, esCancelado) {
+    _cerrarMenuContextual();
+
+    const isAdmin = APP.user.rol === "ADMINISTRADOR";
+
+    // Overlay
+    const overlay = document.createElement("div");
+    overlay.className = "menu-contextual-overlay";
+    overlay.id = "menuContextualOverlay";
+    overlay.onclick = _cerrarMenuContextual;
+    document.body.appendChild(overlay);
+
+    // Menú
+    const menu = document.createElement("div");
+    menu.className = "menu-contextual";
+    menu.id = "menuContextual";
+
+    let items = "";
+
+    if (!esCancelado) {
+      items += `
+      <div class="menu-contextual-item cancelar"
+        onclick="_cerrarMenuContextual();pedirCancelarRegistro('${idRegistro}')">
+        🚫 Cancelar registro
+      </div>`;
+    }
+
+    if (isAdmin) {
+      items += `
+      <div class="menu-contextual-item eliminar"
+        onclick="_cerrarMenuContextual();pedirEliminarRegistro('${idRegistro}')">
+        🗑️ Eliminar registro
+      </div>`;
+    }
+
+    items += `
+    <div class="menu-contextual-item cerrar"
+      onclick="_cerrarMenuContextual()">
+      ✕ Cerrar
+    </div>`;
+
+    menu.innerHTML = items;
+
+    // Posicionar cerca del toque
+    const touch = e.changedTouches?.[0] || e;
+    const x = Math.min(touch.clientX, window.innerWidth - 220);
+    const y = Math.min(touch.clientY, window.innerHeight - 150);
+    menu.style.left = `${x}px`;
+    menu.style.top = `${y}px`;
+
+    document.body.appendChild(menu);
+  }
+
+  function _cerrarMenuContextual() {
+    document.getElementById("menuContextual")?.remove();
+    document.getElementById("menuContextualOverlay")?.remove();
+  }
+
+  function pedirCancelarRegistro(id) {
+    openModal(
+      "🚫 Cancelar registro",
+      `<p style="color:var(--text-secondary)">
+       ¿Cancelar este registro?<br>
+       <span style="font-size:12px;color:var(--warning)">
+         El registro quedará visible en rojo pero no afectará las métricas.
+       </span>
+     </p>
+     <input type="hidden" id="cancelarRegId" value="${id}">`,
+      `<button class="btn btn-ghost" onclick="closeModal()">No, mantener</button>
+     <button class="btn btn-danger" onclick="confirmarCancelarRegistro()">
+       🚫 Sí, cancelar
+     </button>`,
+    );
+  }
+
+  function confirmarCancelarRegistro() {
+    const id = document.getElementById("cancelarRegId")?.value || "";
+    if (!id) return;
+    closeModal();
+
+    google.script.run
+      .withSuccessHandler(() => {
+        toast("Registro cancelado.", "warning");
+        // Recargar la vista actual
+        if (APP.currentPage === "miPanel") cargarMiPanel();
+        else if (APP.currentPage === "dashboard") cargarDashboardAdmin();
+      })
+      .withFailureHandler((err) => toast("Error: " + err.message, "error"))
+      .cancelarRegistroServicio(id);
+  }
+
+  function pedirEliminarRegistro(id) {
+    openModal(
+      "🗑️ Eliminar registro",
+      `<p style="color:var(--text-secondary)">
+       ¿Eliminar este registro permanentemente?<br>
+       <span style="font-size:12px;color:var(--danger)">
+         Esta acción no se puede deshacer.
+       </span>
+     </p>
+     <input type="hidden" id="eliminarRegId" value="${id}">`,
+      `<button class="btn btn-ghost" onclick="closeModal()">Cancelar</button>
+     <button class="btn btn-danger" onclick="confirmarEliminarRegistro()">
+       🗑️ Sí, eliminar
+     </button>`,
+    );
+  }
+
+  function confirmarEliminarRegistro() {
+    const id = document.getElementById("eliminarRegId")?.value || "";
+    if (!id) return;
+    closeModal();
+
+    google.script.run
+      .withSuccessHandler(() => {
+        toast("Registro eliminado.", "success");
+        if (APP.currentPage === "miPanel") cargarMiPanel();
+        else if (APP.currentPage === "dashboard") cargarDashboardAdmin();
+      })
+      .withFailureHandler((err) => toast("Error: " + err.message, "error"))
+      .eliminarRegistroServicio(id);
+  }
+</script>
+
+</body>
+</html>
