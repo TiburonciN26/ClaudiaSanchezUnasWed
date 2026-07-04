@@ -4,6 +4,16 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>Jaise</title>
+
+  <!-- ✅ PWA: manifest y colores de la app instalable -->
+  <link rel="manifest" href="./manifest.json">
+  <meta name="theme-color" content="#0d0e12">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Esmeraldas">
+  <link rel="apple-touch-icon" href="./icon-192.png">
+
   <style>
 /* ==========================================
    VARIABLES — Neutro Minimalista (Modo Oscuro Premium)
@@ -1704,34 +1714,6 @@ select.form-control { cursor: pointer; }
     </div>
   </div>
 
-  <!-- CONFIGURACIÓN DE CONEXIÓN (solo la primera vez por dispositivo) -->
-  <div id="configScreen" class="login-screen hidden">
-    <div class="login-card">
-      <div class="login-header">
-        <div class="login-logo">🔌</div>
-        <h1 class="login-title">Conectar</h1>
-        <p class="login-sub">Configura el servidor una sola vez</p>
-      </div>
-      <div class="login-body">
-        <p class="login-welcome">Pega el enlace que te dio el administrador</p>
-        <div class="form-group">
-          <label class="form-label">Enlace del servidor</label>
-          <div class="input-with-icon">
-            <span class="input-icon">🔗</span>
-            <input type="text" id="configUrl" class="form-control"
-              placeholder="https://script.google.com/.../exec" autocomplete="off">
-          </div>
-        </div>
-        <div id="configError" class="login-error hidden"></div>
-        <button class="btn btn-success btn-block" id="configBtn"
-          onclick="guardarUrlConexion()">
-          <span id="configBtnText">🔌 Conectar</span>
-        </button>
-        <p class="login-hint">🔐 Solo se pide la primera vez en este dispositivo.</p>
-      </div>
-    </div>
-  </div>
-
   <!-- LOGIN -->
   <div id="loginScreen" class="login-screen hidden">
     <div class="login-card">
@@ -1776,6 +1758,34 @@ select.form-control { cursor: pointer; }
           <span style="cursor:pointer;text-decoration:underline"
             onclick="resetearConexion()">¿Cambiar de servidor?</span>
         </p>
+      </div>
+    </div>
+  </div>
+
+  <!-- CONFIGURACIÓN DE CONEXIÓN (solo la primera vez por dispositivo) -->
+  <div id="configScreen" class="login-screen hidden">
+    <div class="login-card">
+      <div class="login-header">
+        <div class="login-logo">🔌</div>
+        <h1 class="login-title">Conectar</h1>
+        <p class="login-sub">Configura el servidor una sola vez</p>
+      </div>
+      <div class="login-body">
+        <p class="login-welcome">Pega el enlace que te dio el administrador</p>
+        <div class="form-group">
+          <label class="form-label">Enlace del servidor</label>
+          <div class="input-with-icon">
+            <span class="input-icon">🔗</span>
+            <input type="text" id="configUrl" class="form-control"
+              placeholder="https://script.google.com/.../exec" autocomplete="off">
+          </div>
+        </div>
+        <div id="configError" class="login-error hidden"></div>
+        <button class="btn btn-success btn-block" id="configBtn"
+          onclick="guardarUrlConexion()">
+          <span id="configBtnText">🔌 Conectar</span>
+        </button>
+        <p class="login-hint">🔐 Solo se pide la primera vez en este dispositivo.</p>
       </div>
     </div>
   </div>
@@ -5597,5 +5607,16 @@ select.form-control { cursor: pointer; }
   }
 </script>
 
+
+  <!-- ✅ PWA: registrar el service worker (hace la app instalable) -->
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', function () {
+        navigator.serviceWorker.register('./service-worker.js')
+          .then(function () { console.log('Service worker registrado ✅'); })
+          .catch(function (err) { console.log('Error service worker:', err); });
+      });
+    }
+  </script>
 </body>
 </html>
